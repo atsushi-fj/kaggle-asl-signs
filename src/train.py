@@ -14,7 +14,7 @@ def train(project,
           experiment_name,
           model_name,
           extra=None,
-          config="./config/config.yaml"):
+          config="config.yaml"):
     
     name = create_display_name(experiment_name=experiment_name,
                                model_name=model_name,
@@ -23,7 +23,7 @@ def train(project,
     
     with wandb.init(project=project,
                     name=name,
-                    config=config):
+                    config=cfg):
         cfg = wandb.config
         device = "cuda" if torch.cuda.is_available() else "cpu"
         print(f"Using {device} device")
