@@ -77,7 +77,7 @@ def train(model,
         wandb.log({"Epoch": epoch+1,
                    "train_loss": train_loss,
                    "train_acc": train_acc,
-                   "test_loss": test_acc,
+                   "test_loss": test_loss,
                    "test_acc": test_acc})
         
         print(
