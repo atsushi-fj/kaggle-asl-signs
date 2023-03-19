@@ -5,12 +5,14 @@ from tqdm.auto import tqdm
 def eval_model(model,
                data_loader,
                loss_fn,
-               accuracy_fn):
+               accuracy_fn,
+               device):
     """Returns a dictionary containing the results of model predicting on data_loader."""
     loss, acc = 0, 0
     model.eval()
     with torch.inference_mode():
         for X, y in tqdm(data_loader):
+            X, y = X.to(device), y.to(device)
             y_pred = model(X)
 
             loss += loss_fn(y_pred, y)

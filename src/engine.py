@@ -63,7 +63,6 @@ def train(model,
     }
     
     model.to(device)
-    wandb.watch(model, loss_fn, log="all", log_freq=10)
 
     for epoch in tqdm(range(epochs)):
         train_loss, train_acc = train_step(model=model,
