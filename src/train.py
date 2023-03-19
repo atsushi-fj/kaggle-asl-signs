@@ -38,7 +38,7 @@ def train(project,
         # Split data
         train_dataset, val_dataset = data_split(X, y,
                                                 test_size=cfg.test_size,
-                                                random_state=cfg.random_state,
+                                                random_state=cfg.seed,
                                                 stratify=y)
 
         # Create dataloader
