@@ -1,13 +1,13 @@
 import numpy as np
 import torch
 import wandb
-
 from pathlib import Path
-from model_builder.backborn.baseline import Baseline
-from engine import train
-from utils import load_config, EarlyStopping, seed_everything, create_display_name
-from data_loader import data_split, create_dataloader
-from inference import eval_model, accuracy_fn
+
+from .model_builder.backborn.baseline import Baseline
+from .engine import train
+from .utils import load_config, EarlyStopping, seed_everything, create_display_name
+from .data_loader import data_split, create_dataloader
+from .inference import eval_model, accuracy_fn
 
 
 def train(project,
@@ -19,13 +19,12 @@ def train(project,
     name = create_display_name(experiment_name=experiment_name,
                                model_name=model_name,
                                extra=extra)
+    cfg = load_config(file=config)
     
     with wandb.init(project=project,
                     name=name,
                     config=config):
-        # Load config file 
-        cfg = load_config(file=config)
-        
+        cfg = wandb.config
         device = "cuda" if torch.cuda.is_available() else "cpu"
         print(f"Using {device} device")
         

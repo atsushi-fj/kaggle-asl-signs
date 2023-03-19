@@ -50,7 +50,6 @@ def load_config(file="config.yaml"):
     config_path = Path("./config/")
     with open(config_path / file, 'r') as file:
         cfg = yaml.safe_load(file)
-    cfg = wandb.cfg
     return cfg
 
 
