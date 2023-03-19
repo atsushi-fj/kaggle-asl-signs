@@ -10,7 +10,7 @@ seed: 42
 test_size: 0.2
 lr: 0.0001
 batch_size: 128
-epochs: 1
-patience: 1
+epochs: 1000
+patience: 100
 model_name: "baseline_model.pth"
 load_model_path: "models/baseline_model.pth"
