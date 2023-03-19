@@ -67,7 +67,8 @@ def run(project,
         result = eval_model(model=model,
                             data_loader=val_dataloader,
                             loss_fn=loss_fn,
-                            accuracy_fn=accuracy_fn)
+                            accuracy_fn=accuracy_fn,
+                            device=device)
         
         print(f"\n{result}")
 
