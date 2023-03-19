@@ -10,11 +10,11 @@ from .data_loader import data_split, create_dataloader
 from .inference import eval_model, accuracy_fn
 
 
-def train(project,
-          experiment_name,
-          model_name,
-          extra=None,
-          config="config.yaml"):
+def run(project,
+        experiment_name,
+        model_name,
+        extra=None,
+        config="config.yaml"):
     
     name = create_display_name(experiment_name=experiment_name,
                                model_name=model_name,
