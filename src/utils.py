@@ -1,10 +1,11 @@
 import yaml
 from pathlib import Path
-from argparse import Namespace
 import torch
 import numpy as np
 import os
 import random
+import wandb
+from datetime import datetime
 
 
 class EarlyStopping:
@@ -49,7 +50,7 @@ def load_config(file="config.yaml"):
     config_path = Path("./config/")
     with open(config_path / file, 'r') as file:
         cfg = yaml.safe_load(file)
-    cfg = Namespace(**cfg)
+    cfg = wandb.cfg
     return cfg
 
 
@@ -60,9 +61,8 @@ def seed_everything(seed=42):
     torch.manual_seed(seed)
     torch.cuda.manual_seed(seed)
     torch.backends.cudnn.deterministic = True
+    
 
-
-seed_everything()
 def save_model(model,
                target_dir,
                model_name):
@@ -76,3 +76,18 @@ def save_model(model,
   print(f"[INFO] Saving model to: {model_save_path}")
   torch.save(obj=model.state_dict(),
              f=model_save_path)
+  wandb.save("model_save_path")
+
+
+def create_display_name(experiment_name,
+                        model_name,
+                        extra=None):
+
+    timestamp = datetime.now().strftime("%Y-%m-%d")
+
+    if extra:
+        name = f"{timestamp}-{experiment_name}-{model_name}-{extra}"
+    else:
+        name = f"{timestamp}-{experiment_name}-{model_name}"
+    print(f"[INFO] Create wandb saving to {name}")
+    return name

@@ -1,5 +1,7 @@
 import torch
 from tqdm.auto import tqdm
+import wandb
+
 
 def train_step(model, 
                dataloader, 
@@ -61,6 +63,7 @@ def train(model,
     }
     
     model.to(device)
+    wandb.watch(model, loss_fn, log="all", log_freq=10)
 
     for epoch in tqdm(range(epochs)):
         train_loss, train_acc = train_step(model=model,
@@ -72,6 +75,11 @@ def train(model,
                                         dataloader=test_dataloader,
                                         loss_fn=loss_fn,
                                         device=device)
+        wandb.log({"Epoch": epoch+1,
+                   "train_loss": train_loss,
+                   "train_acc": train_acc,
+                   "test_loss": test_acc,
+                   "test_acc": test_acc})
         
         print(
           f"Epoch: {epoch+1} | "
@@ -90,4 +98,5 @@ def train(model,
         if earlystopping.early_stop: 
             print("Early Stopping!")
             break
+
       
