@@ -4,6 +4,7 @@ import wandb
 from pathlib import Path
 
 from .model_builder.backborn.baseline import Baseline
+from .model_builder.backborn.gru import GRU
 from .engine import train
 from .utils import load_config, EarlyStopping, seed_everything, create_display_name
 from .data_loader import data_split, create_dataloader
@@ -47,7 +48,7 @@ def run(project,
                                                             pin_memory=True,
                                                             train_drop_last=True)
         # Training model
-        model = Baseline().to(device)
+        model = GRU(input_size=3).to(device)
         loss_fn = torch.nn.CrossEntropyLoss()
         optimizer = torch.optim.Adam(model.parameters(), lr=cfg.lr)
         earlystopping = EarlyStopping(patience=cfg.patience, verbose=True)

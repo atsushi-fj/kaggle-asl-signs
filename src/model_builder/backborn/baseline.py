@@ -1,4 +1,6 @@
 from torch import nn
+from torchinfo import summary
+
 
 class Baseline(nn.Module):
     def __init__(self):
@@ -19,3 +21,11 @@ class Baseline(nn.Module):
         x = self.flatten(x)
         x = self.layer5(x)
         return x
+    
+if __name__ == "__main__":
+    model = Baseline()
+    summary(model, 
+        input_size=(1, 543, 3),
+        col_names=["input_size", "output_size", "num_params", "trainable"],
+        col_width=20,
+        row_settings=["var_names"])
