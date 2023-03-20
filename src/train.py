@@ -4,7 +4,6 @@ import wandb
 from pathlib import Path
 
 from .model_builder.backborn.baseline import Baseline
-from .model_builder.backborn.gru import GRU
 from .engine import train
 from .utils import load_config, EarlyStopping, seed_everything, create_display_name
 from .data_loader import data_split, create_dataloader
@@ -14,8 +13,9 @@ from .inference import eval_model, accuracy_fn
 def run(project,
         experiment_name,
         model_name,
-        extra=None,
-        config="config.yaml"):
+        model=Baseline,
+        config="config.yaml",
+        extra=None):
     
     name = create_display_name(experiment_name=experiment_name,
                                model_name=model_name,
@@ -48,7 +48,7 @@ def run(project,
                                                             pin_memory=True,
                                                             train_drop_last=True)
         # Training model
-        model = GRU(input_size=3).to(device)
+        model.to(device)
         loss_fn = torch.nn.CrossEntropyLoss()
         optimizer = torch.optim.Adam(model.parameters(), lr=cfg.lr)
         earlystopping = EarlyStopping(patience=cfg.patience, verbose=True)
@@ -73,3 +73,7 @@ def run(project,
         
         print(f"\n{result}")
 
+if __name__ == "__main__":
+    cfg = load_config(file="config1.yaml")
+    model = cfg.model()
+    print(model)
