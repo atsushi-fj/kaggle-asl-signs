@@ -8,6 +8,7 @@ from .utils import load_config
 
 
 def make_submission(model,
+                    model_path,
                     config,
                     device,
                     onnx_model_path="model.onnx",
@@ -15,7 +16,7 @@ def make_submission(model,
                     tflite_model_path="model.tflite"):
     
     cfg = load_config(file=config)
-    model.load_state_dict(torch.load(cfg.load_model_path), strict=False).to(device)
+    model.load_state_dict(torch.load(model_path), strict=False).to(device)
     model.eval()
     sample_input = torch.rand((cfg.batch_size, *cfg.img_size)).to(device)
     torch.onnx.export(
