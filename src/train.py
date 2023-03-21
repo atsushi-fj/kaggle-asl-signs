@@ -10,19 +10,16 @@ from .data_loader import data_split, create_dataloader
 from .inference import eval_model, accuracy_fn
 
 
-def run(project,
-        experiment_name,
-        model_name,
-        model=Baseline,
+def run(model=Baseline,
         config="config.yaml",
         extra=None):
     
-    name = create_display_name(experiment_name=experiment_name,
-                               model_name=model_name,
-                               extra=extra)
     cfg = load_config(file=config)
+    name = create_display_name(experiment_name=cfg.experiment_name,
+                               model_name=cfg.model_name,
+                               extra=extra)
     
-    with wandb.init(project=project,
+    with wandb.init(project=cfg.project,
                     name=name,
                     config=cfg):
         cfg = wandb.config
@@ -73,7 +70,3 @@ def run(project,
         
         print(f"\n{result}")
 
-if __name__ == "__main__":
-    cfg = load_config(file="config1.yaml")
-    model = cfg.model()
-    print(model)

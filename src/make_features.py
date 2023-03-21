@@ -8,7 +8,7 @@ import multiprocessing as mp
 
 from utils import load_config
 
-# Load config file 
+
 cfg = load_config(file="config.yaml")
 
 class FeatureGen(nn.Module):
