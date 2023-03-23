@@ -15,11 +15,12 @@ def run(model=Baseline,
         extra=None):
     
     cfg = load_config(file=config)
-    name = create_display_name(experiment_name=cfg.experiment_name,
-                               model_name=cfg.model_name,
+    print(cfg)
+    name = create_display_name(experiment_name=cfg["experiment_name"],
+                               model_name=cfg["model_name"],
                                extra=extra)
-    
-    with wandb.init(project=cfg.project,
+
+    with wandb.init(project=cfg["project"],
                     name=name,
                     config=cfg):
         cfg = wandb.config
