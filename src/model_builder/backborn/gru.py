@@ -17,7 +17,7 @@ class GRU(nn.Module):
         self.gru3 = nn.GRU(128, 64, self.input_size[1],
                            dropout=dropout_rate,
                            batch_first=True)
-        self.dense1 = nn.Linear(128, 64)
+        self.dense1 = nn.Linear(64, 64)
         self.dense2 = nn.Linear(64, 32)
         self.dense3 = nn.Linear(32, 250)
         self.relu = nn.ReLU()
@@ -26,7 +26,7 @@ class GRU(nn.Module):
     def forward(self, x):
         # initial hidden states
         x, _ = self.gru1(x)
-        x, _ = self.gru2(x)
+        # x, _ = self.gru2(x)
         # x, _ = self.gru3(x)
         x = self.relu(self.dense1(x[:, -1, :]))
         x = self.relu(self.dense2(x))
