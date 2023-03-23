@@ -4,7 +4,7 @@ from torchinfo import summary
 
 class GRU(nn.Module):
     def __init__(self,
-                 input_size=[128, 543, 3],
+                 input_size=[32, 543, 3],
                  dropout_rate=0.1):
         super().__init__()
         self.input_size = input_size
