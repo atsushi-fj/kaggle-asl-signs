@@ -134,3 +134,4 @@ dmypy.json
 *.zip
 *.npy
 *.pth
+.tmp.*
