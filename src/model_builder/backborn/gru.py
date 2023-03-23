@@ -8,12 +8,12 @@ class GRU(nn.Module):
                  dropout_rate=0.1):
         super().__init__()
         self.input_size = input_size
-        self.gru = nn.GRU(self.input_size[-1], 64, 3,
+        self.gru = nn.GRU(self.input_size[-1], 560, 3,
                            dropout=dropout_rate,
                            batch_first=True)
-        self.dense1 = nn.Linear(64, 64)
-        self.dense2 = nn.Linear(64, 32)
-        self.dense3 = nn.Linear(32, 250)
+        self.dense1 = nn.Linear(560, 560)
+        self.dense2 = nn.Linear(560, 280)
+        self.dense3 = nn.Linear(280, 250)
         self.relu = nn.ReLU()
     
     
