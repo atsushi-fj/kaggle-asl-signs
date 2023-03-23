@@ -1,0 +1,19 @@
+rows_per_frame: 543
+
+lips: [61, 185, 40, 39, 37,  0, 267, 269, 270, 409,
+      291,146, 91,181, 84, 17, 314, 405, 321, 375, 
+      78, 191, 80, 81, 82, 13, 312, 311, 310, 415, 
+      95, 88, 178, 87, 14,317, 402, 318, 324, 308]
+
+seed: 42
+test_size: 0.2
+lr: 0.0001
+batch_size: 128
+img_size: [1, 543, 3]
+epochs: 1000
+patience: 100
+model_path: "gru_model.pth"
+load_model_path: "models/gru_model_5layers.pth"
+project: "kaggle-asl-signs"
+experiment_name: "gru_baseline_5layers"
+model_name: "gru"
