@@ -15,7 +15,6 @@ def run(model=Baseline,
         extra=None):
     
     cfg = load_config(file=config)
-    print(cfg)
     name = create_display_name(experiment_name=cfg["experiment_name"],
                                model_name=cfg["model_name"],
                                extra=extra)
