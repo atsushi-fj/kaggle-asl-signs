@@ -1,16 +1,13 @@
-import torch
 import torch.nn as nn
 from torchinfo import summary
 
 
 class GRU(nn.Module):
     def __init__(self,
-                 device,
                  input_size=[128, 543, 3],
                  dropout_rate=0.1):
         super().__init__()
         self.input_size = input_size
-        self.device = device
         self.gru1 = nn.GRU(self.input_size[-1], 64, self.input_size[1],
                            dropout=dropout_rate,
                            batch_first=True)
@@ -28,12 +25,9 @@ class GRU(nn.Module):
     
     def forward(self, x):
         # initial hidden states
-        h0 = torch.zeros(x.size(1), x.size(0), 64).to(self.device)  # LxNxM
-        x, _ = self.gru1(x, h0)
-        h0 = torch.zeros(x.size(1), x.size(0), 128).to(self.device)
-        x, h0 = self.gru2(x, h0)
-        h0 = torch.zeros(x.size(1), x.size(0), 64).to(self.device)
-        x, _ = self.gru3(x, h0)
+        x, _ = self.gru1(x)
+        x, _ = self.gru2(x)
+        x, _ = self.gru3(x)
         x = self.relu(self.dense1(x[:, -1, :]))
         x = self.relu(self.dense2(x))
         x = self.relu(self.dense3(x))
