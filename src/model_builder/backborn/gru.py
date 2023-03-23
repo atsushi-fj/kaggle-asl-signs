@@ -8,13 +8,7 @@ class GRU(nn.Module):
                  dropout_rate=0.1):
         super().__init__()
         self.input_size = input_size
-        self.gru1 = nn.GRU(self.input_size[-1], 64, self.input_size[1],
-                           dropout=dropout_rate,
-                           batch_first=True)
-        self.gru2 = nn.GRU(64, 128, self.input_size[1],
-                           dropout=dropout_rate,
-                           batch_first=True)
-        self.gru3 = nn.GRU(128, 64, self.input_size[1],
+        self.gru = nn.GRU(self.input_size[-1], 64, 3,
                            dropout=dropout_rate,
                            batch_first=True)
         self.dense1 = nn.Linear(64, 64)
@@ -24,10 +18,7 @@ class GRU(nn.Module):
     
     
     def forward(self, x):
-        # initial hidden states
-        x, _ = self.gru1(x)
-        # x, _ = self.gru2(x)
-        # x, _ = self.gru3(x)
+        x, _ = self.gru(x)
         x = self.relu(self.dense1(x[:, -1, :]))
         x = self.relu(self.dense2(x))
         x = self.relu(self.dense3(x))
