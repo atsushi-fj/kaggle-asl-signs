@@ -56,7 +56,7 @@ def run(model=Baseline,
             loss_fn=loss_fn,
             epochs=cfg.epochs,
             earlystopping=earlystopping,
-            model_name=cfg.model_name,
+            model_name=cfg.model_path,
             device=device)
         
         model.load_state_dict(torch.load(f=cfg.load_model_path))

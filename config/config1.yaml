@@ -12,5 +12,8 @@ batch_size: 1024
 img_size: [1, 543, 3]
 epochs: 1000
 patience: 100
-model_name: "gru_model.pth"
+model_path: "gru_model.pth"
 load_model_path: "models/gru_model.pth"
+project: "kaggle-asl-signs"
+experiment_name: "gru_baseline"
+model_name: "gru"
