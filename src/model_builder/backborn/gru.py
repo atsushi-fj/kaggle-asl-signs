@@ -26,8 +26,8 @@ class GRU(nn.Module):
     def forward(self, x):
         # initial hidden states
         x, _ = self.gru1(x)
-        # x, _ = self.gru2(x)
-        # x, _ = self.gru3(x)
+        x, _ = self.gru2(x)
+        x, _ = self.gru3(x)
         x = self.relu(self.dense1(x[:, -1, :]))
         x = self.relu(self.dense2(x))
         x = self.relu(self.dense3(x))
