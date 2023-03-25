@@ -14,14 +14,16 @@ class GRU(nn.Module):
                            batch_first=True)
         self.dense = nn.Sequential(
             nn.Linear(560, 560),
+            nn.BatchNorm1d(560),
             nn.ReLU(),
-            nn.Dropout(p=dropout_rate, inplace=True)
+            nn.Dropout(p=dropout_rate)
         )
         self.dense1 = self.dense * (n_layers-2)
         self.dense2 = nn.Sequential(
             nn.Linear(560, 280),
+            nn.BatchNorm1d(280),
             nn.ReLU(),
-            nn.Dropout(p=dropout_rate, inplace=True),
+            nn.Dropout(p=dropout_rate),
             nn.Linear(280, 250)
         )
     
