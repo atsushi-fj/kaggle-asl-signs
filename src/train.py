@@ -30,9 +30,9 @@ def run(model=Baseline,
 
         # load feature data
         data_path = Path("./input/processed_data")
-        X = np.load(data_path / "X.npy")
-        y = np.load(data_path / "y.npy")
-
+        X = np.load(data_path / "lip_X.npy")
+        y = np.load(data_path / "lip_y.npy")
+        
         # Split data
         train_dataset, val_dataset = data_split(X, y,
                                                 test_size=cfg.test_size,

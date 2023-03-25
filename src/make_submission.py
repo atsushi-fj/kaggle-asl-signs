@@ -38,5 +38,3 @@ def make_submission(model,
     with open(tflite_model_path, "wb") as f:
         f.write(tflite_model)
         
-    subprocess.run(["zip submission.zip", "$tflite_model_path"])
-    print("made submission.zip")
