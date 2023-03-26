@@ -7,7 +7,7 @@ class GRU(nn.Module):
     def __init__(self,
                  input_size=3,
                  dropout_rate=0.3,
-                 n_layers=4):
+                 n_layers=11):
         super().__init__()
         self.gru = nn.GRU(input_size, 560, n_layers,
                            dropout=dropout_rate,
@@ -18,7 +18,7 @@ class GRU(nn.Module):
             nn.ReLU(),
             nn.Dropout(p=dropout_rate)
         )
-        self.dense1 = self.dense * (n_layers-2)
+        self.dense1 = self.dense * (1)
         self.dense2 = nn.Sequential(
             nn.Linear(560, 280),
             nn.BatchNorm1d(280),
@@ -38,7 +38,7 @@ class GRU(nn.Module):
 if __name__ == "__main__":
     model = GRU()
     summary(model, 
-            input_size=(1, 543, 3),
+            input_size=(1, 115, 3),
             col_names=["input_size", "output_size", "num_params", "trainable"],
             col_width=20,
             row_settings=["var_names"])
