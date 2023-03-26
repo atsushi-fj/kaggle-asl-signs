@@ -7,7 +7,7 @@ class GRU(nn.Module):
     def __init__(self,
                  input_size=3,
                  dropout_rate=0.3,
-                 n_layers=11):
+                 n_layers=8):
         super().__init__()
         self.gru = nn.GRU(input_size, 560, n_layers,
                            dropout=dropout_rate,

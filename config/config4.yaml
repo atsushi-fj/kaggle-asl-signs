@@ -13,8 +13,8 @@ img_size: [1, 115, 3]
 epochs: 1000
 patience: 30
 model_path: "gru_model_11layers.pth"
-load_model_path: "models/gru_model_11layers.pth"
+load_model_path: "models/gru_model_8layers.pth"
 project: "kaggle-asl-signs"
-experiment_name: "gru_11layers"
+experiment_name: "gru_8layers"
 model_name: "gru"
 extra: "dense_3layers"
