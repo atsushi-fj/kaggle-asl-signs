@@ -3,6 +3,7 @@ import yaml
 import tensorflow as tf
 import numpy as np
 import math
+from argparse import Namespace
 
 # Custom callback to update weight decay with learning rate
 class WeightDecayCallback(tf.keras.callbacks.Callback):
@@ -35,6 +36,7 @@ def load_config(file="config.yaml"):
     config_path = Path("./config/")
     with open(config_path / file, 'r') as file:
         cfg = yaml.safe_load(file)
+    cfg = Namespace(**cfg)
     return cfg
 
 
