@@ -75,12 +75,6 @@ def load_config(file="config.yaml"):
     return cfg
 
 
-def get_lr_metric(optimizer):
-    def lr(y_true, y_pred):
-        return optimizer.lr
-    return lr
-
-
 # Custom sampler to get a batch containing N times all signs
 def get_train_batch_all_signs(X, y, NON_EMPTY_FRAME_IDXS, cfg):
     n=cfg.BATCH_ALL_SIGNS_N

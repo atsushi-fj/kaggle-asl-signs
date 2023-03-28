@@ -1,8 +1,12 @@
 import tensorflow as tf
 import tensorflow_addons as tfa
-from utils import load_config, get_lr_metric
 from transformer.embedding import CustomEmbedding
 from transformer.transformer import Transformer
+
+def get_lr_metric(optimizer):
+    def lr(y_true, y_pred):
+        return optimizer.lr
+    return lr
 
 def get_model(cfg):
     # Inputs

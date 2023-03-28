@@ -1,5 +1,4 @@
 import tensorflow as tf
-from utils import load_config
 
 
 class MultiHeadAttention(tf.keras.layers.Layer):

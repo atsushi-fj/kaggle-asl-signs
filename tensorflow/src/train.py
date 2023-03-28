@@ -1,5 +1,5 @@
 import tensorflow as tf
-from utils import WeightDecayCallback, load_config, lrfn, get_train_batch_all_signs
+from .utils import WeightDecayCallback, load_config, lrfn, get_train_batch_all_signs
 import wandb
 import numpy as np
 
