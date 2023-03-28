@@ -1,7 +1,7 @@
 import tensorflow as tf
 import tensorflow_addons as tfa
-from . import CustomEmbedding
-from . import Transformer
+from ..transformer import CustomEmbedding
+from ..transformer import Transformer
 
 def get_lr_metric(optimizer):
     def lr(y_true, y_pred):
