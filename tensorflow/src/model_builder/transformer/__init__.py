@@ -1,2 +1,2 @@
-from embedding import CustomEmbedding, LandmarkEmbedding
-from transformer import Transformer
+from .embedding import CustomEmbedding, LandmarkEmbedding
+from .transformer import Transformer
