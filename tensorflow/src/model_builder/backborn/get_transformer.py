@@ -2,13 +2,15 @@ import tensorflow as tf
 import tensorflow_addons as tfa
 from ..transformer import CustomEmbedding
 from ..transformer import Transformer
+from ...utils import load_config
 
 def get_lr_metric(optimizer):
     def lr(y_true, y_pred):
         return optimizer.lr
     return lr
 
-def get_model(cfg):
+def get_model(config):
+    cfg = load_config(config)
     # Inputs
     frames = tf.keras.layers.Input([cfg.INPUT_SIZE, cfg.N_COLS, cfg.N_DIMS], dtype=tf.float32, name='frames')
     non_empty_frame_idxs = tf.keras.layers.Input([cfg.INPUT_SIZE], dtype=tf.float32, name='non_empty_frame_idxs')
