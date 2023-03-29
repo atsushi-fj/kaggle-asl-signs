@@ -17,7 +17,7 @@ class LandmarkEmbedding(tf.keras.Model):
         self.empty_embedding = self.add_weight(
             name=f'{self.name}_empty_embedding',
             shape=[self.units],
-            initializer=self.cfg.INIT_ZEROS,
+            initializer=INIT_ZEROS,
         )
         # Embedding
         self.dense = tf.keras.Sequential([
