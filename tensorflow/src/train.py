@@ -23,7 +23,7 @@ def run(config):
     ]
     
     model.fit(
-        x=get_train_batch_all_signs(X, y, NON_EMPTY_FRAME_IDXS),
+        x=get_train_batch_all_signs(X, y, NON_EMPTY_FRAME_IDXS, cfg),
         steps_per_epoch=len(X) // (cfg.NUM_CLASSES * cfg.BATCH_ALL_SIGNS_N),
         epochs=cfg.N_EPOCHS,
         batch_size=cfg.BATCH_SIZE,
