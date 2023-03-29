@@ -5,15 +5,16 @@ from ..transformer import Transformer
 from ...utils import load_config
 from ...feature import create_feature_statistics
 
+
 def get_lr_metric(optimizer):
     def lr(y_true, y_pred):
         return optimizer.lr
     return lr
 
+
 def get_model(config):
     cfg = load_config(config)
-    statistics = create_feature_statistics()
-    LIPS_MEAN, LIPS_STD, LEFT_HANDS_MEAN, LEFT_HANDS_STD, RIGHT_HANDS_MEAN, RIGHT_HANDS_STD, POSE_MEAN, POSE_STD = statistics
+    feature_stats = create_feature_statistics()
     # Inputs
     frames = tf.keras.layers.Input([cfg.INPUT_SIZE, cfg.N_COLS, cfg.N_DIMS], dtype=tf.float32, name='frames')
     non_empty_frame_idxs = tf.keras.layers.Input([cfg.INPUT_SIZE], dtype=tf.float32, name='non_empty_frame_idxs')
@@ -23,36 +24,40 @@ def get_model(config):
     
     x = frames
     x = tf.slice(x, [0,0,0,0], [-1,cfg.INPUT_SIZE, cfg.N_COLS, 2])
+    
     # LIPS
-    lips = tf.slice(x, [0,0,cfg.LIPS_START,0], [-1,cfg.INPUT_SIZE, 40, 2])
+    lips = tf.slice(x, [0,0,feature_stats["lips"][0],0], [-1,cfg.INPUT_SIZE, 40, 2])
     lips = tf.where(
             tf.math.equal(lips, 0.0),
             0.0,
-            (lips - cfg.LIPS_MEAN) / cfg.LIPS_STD,
+            (lips - feature_stats["lips"][1]) / feature_stats["lips"][2],
         )
     lips = tf.reshape(lips, [-1, cfg.INPUT_SIZE, 40*2])
+    
     # LEFT HAND
     left_hand = tf.slice(x, [0,0,40,0], [-1,cfg.INPUT_SIZE, 21, 2])
     left_hand = tf.where(
             tf.math.equal(left_hand, 0.0),
             0.0,
-            (left_hand - cfg.LEFT_HANDS_MEAN) / cfg.LEFT_HANDS_STD,
+            (left_hand - feature_stats["left_hand"][1]) / feature_stats["left_hand"][2],
         )
     left_hand = tf.reshape(left_hand, [-1, cfg.INPUT_SIZE, 21*2])
+    
     # RIGHT HAND
     right_hand = tf.slice(x, [0,0,61,0], [-1,cfg.INPUT_SIZE, 21, 2])
     right_hand = tf.where(
             tf.math.equal(right_hand, 0.0),
             0.0,
-            (right_hand - cfg.RIGHT_HANDS_MEAN) / cfg.RIGHT_HANDS_STD,
+            (right_hand - feature_stats["right_hand"][1]) / feature_stats["right_hand"][2],
         )
     right_hand = tf.reshape(right_hand, [-1, cfg.INPUT_SIZE, 21*2])
+    
     # POSE
     pose = tf.slice(x, [0,0,82,0], [-1,cfg.INPUT_SIZE, 10, 2])
     pose = tf.where(
             tf.math.equal(pose, 0.0),
             0.0,
-            (pose - cfg.POSE_MEAN) / cfg.POSE_STD,
+            (pose - feature_stats["pose"][1]) / feature_stats["pose"][2],
         )
     pose = tf.reshape(pose, [-1, cfg.INPUT_SIZE, 10*2])
     x = lips, left_hand, right_hand, pose
@@ -62,7 +67,7 @@ def get_model(config):
     # Pooling
     x = tf.reduce_sum(x * mask, axis=1) / tf.reduce_sum(mask, axis=1)
     # Classification Layer
-    x = tf.keras.layers.Dense(cfg.NUM_CLASSES, activation=tf.keras.activations.softmax, kernel_initializer=INIT_GLOROT_UNIFORM)(x)
+    x = tf.keras.layers.Dense(cfg.NUM_CLASSES, activation=tf.keras.activations.softmax, kernel_initializer=cfg.INIT_GLOROT_UNIFORM)(x)
     outputs = x
     
     # Create Tensorflow Model

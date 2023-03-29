@@ -95,7 +95,15 @@ def create_feature_statistics():
     POSE_MEAN = np.array([POSE_MEAN_X, POSE_MEAN_Y]).T
     POSE_STD = np.array([POSE_STD_X, POSE_STD_Y]).T
     
-    statistics = (LIPS_MEAN, LIPS_STD, LEFT_HANDS_MEAN, LEFT_HANDS_STD, RIGHT_HANDS_MEAN, RIGHT_HANDS_STD, POSE_MEAN, POSE_STD)
+    LIPS_START = 0
+    LEFT_HAND_START = LIPS_IDXS.size
+    RIGHT_HAND_START = LEFT_HAND_START + LEFT_HAND_IDXS.size
+    POSE_START = RIGHT_HAND_START + RIGHT_HAND_IDXS.size
+    
+    statistics = {"lips": (LIPS_START, LIPS_MEAN, LIPS_STD),
+                  "left_hand": (LEFT_HAND_START, LEFT_HANDS_MEAN, LEFT_HANDS_STD),
+                  "right_hand": (RIGHT_HAND_START, RIGHT_HANDS_MEAN, RIGHT_HANDS_STD),
+                  "pose": (POSE_START, POSE_MEAN, POSE_STD)}
     
     return statistics
 
