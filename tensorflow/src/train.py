@@ -7,7 +7,7 @@ import numpy as np
 
 def run(config):
     cfg = load_config(config)
-    X, y, NON_EMPTY_FRAME_IDXS, model = get_transformer()
+    X, y, NON_EMPTY_FRAME_IDXS, model = get_transformer(cfg)
     
     run = wandb.init(project="kaggle-asl-signs", config=cfg, tags=['transformer', 'final-model'])
     tf.keras.backend.clear_session()

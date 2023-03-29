@@ -13,8 +13,7 @@ def get_lr_metric(optimizer):
     return lr
 
 
-def get_transformer(config):
-    cfg = load_config(config)
+def get_transformer(cfg):
     X, y, NON_EMPTY_FRAME_IDXS = load_data()
     feature_stats = create_feature_statistics(X)
     # Inputs
