@@ -37,14 +37,14 @@ EMBEDDING_DROPOUT: 0.00
 MLP_DROPOUT_RATIO: 0.30
 CLASSIFIER_DROPOUT_RATIO: 0.10
 
-# Initiailizers
-INIT_HE_UNIFORM: tf.keras.initializers.he_uniform
-INIT_GLOROT_UNIFORM: tf.keras.initializers.glorot_uniform
-INIT_ZEROS: tf.keras.initializers.constant(0.0)
-# Activations
-GELU: tf.keras.activations.gelu
-
 # Optimizer
 lr: 1.e-3
 weight_decay: 1.e-5
 clipnorm: 1.0
+
+# Path
+MODEL_PATH: "models/transformer_baseline"
+MODEL_WEIGHTS_PATH: "models/transformer_weights_baseline"
+ARTIFACT: "transformer_model"
+ARTIFACT_DATA: "models/transformer_weights_baseline.data-00000-of-00001"
+ARTIFACT_INDEX: "models/transformer_weights_baseline.index"

@@ -18,7 +18,7 @@ def run(config):
     lr_callback = tf.keras.callbacks.LearningRateScheduler(lambda step: LR_SCHEDULE[step], verbose=1)
     callbacks=[
             lr_callback,
-            WeightDecayCallback(),
+            WeightDecayCallback(model=model, cfg=cfg),
             wandb.keras.WandbCallback()
     ]
     
@@ -30,10 +30,10 @@ def run(config):
         callbacks=callbacks,
         verbose=2,)
      
-    model.save('./final_model_one')
-    model.save_weights('./final_model_one_weights')
-    artifact = wandb.Artifact('final_model_one', type='model')
-    artifact.add_file('./final_model_one_weights.data-00000-of-00001')
-    artifact.add_file('./final_model_one_weights.index')
+    model.save(cfg.MODEL_PATH)
+    model.save_weights(cfg.MODEL_WEIGHTS_PATH)
+    artifact = wandb.Artifact(cfg.ARTIFACT, type='model')
+    artifact.add_file(cfg.ARTIFACT_DATA)
+    artifact.add_file(cfg.ARTIFACT_INDEX)
     run.log_artifact(artifact)
     
