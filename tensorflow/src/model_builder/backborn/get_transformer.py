@@ -1,8 +1,9 @@
 import tensorflow as tf
 import tensorflow_addons as tfa
+import numpy as np
 from ..transformer import CustomEmbedding
 from ..transformer import Transformer
-from ...utils import load_config
+from ...utils import load_config, load_data
 from ...feature import create_feature_statistics
 
 
@@ -12,9 +13,10 @@ def get_lr_metric(optimizer):
     return lr
 
 
-def get_model(config):
+def get_transformer(config):
     cfg = load_config(config)
-    feature_stats = create_feature_statistics()
+    X, y, NON_EMPTY_FRAME_IDXS = load_data()
+    feature_stats = create_feature_statistics(X)
     # Inputs
     frames = tf.keras.layers.Input([cfg.INPUT_SIZE, cfg.N_COLS, cfg.N_DIMS], dtype=tf.float32, name='frames')
     non_empty_frame_idxs = tf.keras.layers.Input([cfg.INPUT_SIZE], dtype=tf.float32, name='non_empty_frame_idxs')
@@ -62,6 +64,7 @@ def get_model(config):
     pose = tf.reshape(pose, [-1, cfg.INPUT_SIZE, 10*2])
     x = lips, left_hand, right_hand, pose
     x = CustomEmbedding()(lips, left_hand, right_hand, pose, non_empty_frame_idxs)
+    
     # Encoder Transformer Blocks
     x = Transformer(cfg.NUM_BLOCKS)(x, mask)
     # Pooling
@@ -82,4 +85,4 @@ def get_model(config):
     lr_metric = get_lr_metric(optimizer)
     metrics = ["acc",lr_metric]
     model.compile(loss=loss, optimizer=optimizer, metrics=metrics)
-    return model
+    return X, y, NON_EMPTY_FRAME_IDXS, model

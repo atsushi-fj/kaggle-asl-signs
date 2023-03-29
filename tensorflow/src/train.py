@@ -1,14 +1,13 @@
 import tensorflow as tf
 from .utils import WeightDecayCallback, load_config, lrfn, get_train_batch_all_signs
+from .model_builder import get_transformer
 import wandb
 import numpy as np
 
 
-def run(model, config):
+def run(X, y, model, config):
     cfg = load_config(config)
-    X = np.load('input/X.npy')
-    y = np.load('input/y.npy')
-    NON_EMPTY_FRAME_IDXS = np.load('input/NON_EMPTY_FRAME_IDXS.npy')
+    X, y, NON_EMPTY_FRAME_IDXS, model = get_transformer()
     
     run = wandb.init(project="kaggle-asl-signs", config=cfg, tags=['transformer', 'final-model'])
     tf.keras.backend.clear_session()
