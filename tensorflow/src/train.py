@@ -5,7 +5,7 @@ import wandb
 import numpy as np
 
 
-def run(X, y, model, config):
+def run(config):
     cfg = load_config(config)
     X, y, NON_EMPTY_FRAME_IDXS, model = get_transformer()
     
