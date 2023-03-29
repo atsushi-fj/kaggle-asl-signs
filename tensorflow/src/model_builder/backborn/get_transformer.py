@@ -18,8 +18,12 @@ def get_transformer(config):
     X, y, NON_EMPTY_FRAME_IDXS = load_data()
     feature_stats = create_feature_statistics(X)
     # Inputs
-    frames = tf.keras.layers.Input([cfg.INPUT_SIZE, cfg.N_COLS, cfg.N_DIMS], dtype=tf.float32, name='frames')
-    non_empty_frame_idxs = tf.keras.layers.Input([cfg.INPUT_SIZE], dtype=tf.float32, name='non_empty_frame_idxs')
+    frames = tf.keras.layers.Input([cfg.INPUT_SIZE, cfg.N_COLS, cfg.N_DIMS],
+                                   dtype=tf.float32,
+                                   name='frames')
+    non_empty_frame_idxs = tf.keras.layers.Input([cfg.INPUT_SIZE],
+                                                 dtype=tf.float32,
+                                                 name='non_empty_frame_idxs')
     # Padding Mask
     mask = tf.cast(tf.math.not_equal(non_empty_frame_idxs, -1), tf.float32)
     mask = tf.expand_dims(mask, axis=2)
@@ -70,7 +74,9 @@ def get_transformer(config):
     # Pooling
     x = tf.reduce_sum(x * mask, axis=1) / tf.reduce_sum(mask, axis=1)
     # Classification Layer
-    x = tf.keras.layers.Dense(cfg.NUM_CLASSES, activation=tf.keras.activations.softmax, kernel_initializer=tf.keras.initializers.glorot_uniform)(x)
+    x = tf.keras.layers.Dense(cfg.NUM_CLASSES,
+                              activation=tf.keras.activations.softmax,
+                              kernel_initializer=tf.keras.initializers.glorot_uniform)(x)
     outputs = x
     
     # Create Tensorflow Model
@@ -80,7 +86,9 @@ def get_transformer(config):
     loss = tf.keras.losses.SparseCategoricalCrossentropy()
     
     # Adam Optimizer with weight decay
-    optimizer = tfa.optimizers.AdamW(learning_rate=cfg.lr, weight_decay=cfg.weight_decay, clipnorm=cfg.clipnorm)
+    optimizer = tfa.optimizers.AdamW(learning_rate=cfg.lr,
+                                     weight_decay=cfg.weight_decay,
+                                     clipnorm=cfg.clipnorm)
     
     lr_metric = get_lr_metric(optimizer)
     metrics = ["acc",lr_metric]

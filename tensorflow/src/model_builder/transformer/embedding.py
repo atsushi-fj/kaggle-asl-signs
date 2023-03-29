@@ -1,5 +1,11 @@
 import tensorflow as tf
 
+
+INIT_HE_UNIFORM= tf.keras.initializers.he_uniform
+INIT_GLOROT_UNIFORM = tf.keras.initializers.glorot_uniform
+INIT_ZEROS =  tf.keras.initializers.constant(0.0)
+
+
 class LandmarkEmbedding(tf.keras.Model):
     def __init__(self, units, name, cfg):
         super(LandmarkEmbedding, self).__init__(name=f'{name}_embedding')
@@ -15,8 +21,13 @@ class LandmarkEmbedding(tf.keras.Model):
         )
         # Embedding
         self.dense = tf.keras.Sequential([
-            tf.keras.layers.Dense(self.units, name=f'{self.name}_dense_1', use_bias=False, kernel_initializer=self.cfg.INIT_GLOROT_UNIFORM, activation=self.cfg.GELU),
-            tf.keras.layers.Dense(self.units, name=f'{self.name}_dense_2', use_bias=False, kernel_initializer=self.cfg.INIT_HE_UNIFORM),
+            tf.keras.layers.Dense(self.units, name=f'{self.name}_dense_1',
+                                  use_bias=False,
+                                  kernel_initializer=INIT_GLOROT_UNIFORM,
+                                  activation=tf.keras.activations.gelu),
+            tf.keras.layers.Dense(self.units, name=f'{self.name}_dense_2',
+                                  use_bias=False,
+                                  kernel_initializer=INIT_HE_UNIFORM),
         ], name=f'{self.name}_dense')
 
     def call(self, x):
@@ -46,7 +57,9 @@ class CustomEmbedding(tf.keras.Model):
 
     def build(self, input_shape):
         # Positional Embedding, initialized with zeros
-        self.positional_embedding = tf.keras.layers.Embedding(self.cfg.INPUT_SIZE+1, self.cfg.UNITS, embeddings_initializer=self.cfg.INIT_ZEROS)
+        self.positional_embedding = tf.keras.layers.Embedding(self.cfg.INPUT_SIZE+1,
+                                                              self.cfg.UNITS,
+                                                              embeddings_initializer=INIT_ZEROS)
         # Embedding layer for Landmarks
         self.lips_embedding = LandmarkEmbedding(self.cfg.LIPS_UNITS, 'lips')
         self.left_hand_embedding = LandmarkEmbedding(self.cfg.HANDS_UNITS, 'left_hand')
@@ -56,8 +69,14 @@ class CustomEmbedding(tf.keras.Model):
         self.landmark_weights = tf.Variable(tf.zeros([4], dtype=tf.float32), name='landmark_weights')
         # Fully Connected Layers for combined landmarks
         self.fc = tf.keras.Sequential([
-            tf.keras.layers.Dense(self.cfg.UNITS, name='fully_connected_1', use_bias=False, kernel_initializer=self.cfg.INIT_GLOROT_UNIFORM, activation=self.cfg.GELU),
-            tf.keras.layers.Dense(self.cfg.UNITS, name='fully_connected_2', use_bias=False, kernel_initializer=self.cfg.INIT_HE_UNIFORM),
+            tf.keras.layers.Dense(self.cfg.UNITS, name='fully_connected_1',
+                                  use_bias=False,
+                                  kernel_initializer=INIT_GLOROT_UNIFORM,
+                                  activation=tf.keras.activations.gelu),
+            tf.keras.layers.Dense(self.cfg.UNITS,
+                                  name='fully_connected_2',
+                                  use_bias=False,
+                                  kernel_initializer=INIT_HE_UNIFORM),
         ], name='fc')
 
 

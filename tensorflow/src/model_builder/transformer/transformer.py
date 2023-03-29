@@ -1,5 +1,9 @@
 import tensorflow as tf
 
+INIT_HE_UNIFORM= tf.keras.initializers.he_uniform
+INIT_GLOROT_UNIFORM = tf.keras.initializers.glorot_uniform
+INIT_ZEROS =  tf.keras.initializers.constant(0.0)
+
 
 class MultiHeadAttention(tf.keras.layers.Layer):
     def __init__(self,d_model,num_of_heads):
@@ -48,9 +52,11 @@ class Transformer(tf.keras.Model):
             self.ln_2s.append(tf.keras.layers.LayerNormalization(epsilon=self.cfg.LAYER_NORM_EPS))
             # Multi Layer Perception
             self.mlps.append(tf.keras.Sequential([
-                tf.keras.layers.Dense(self.cfg.UNITS * self.cfg.MLP_RATIO, activation=self.cfg.GELU, kernel_initializer=self.cfg.INIT_GLOROT_UNIFORM),
+                tf.keras.layers.Dense(self.cfg.UNITS * self.cfg.MLP_RATIO,
+                                      activation=tf.keras.activations.gelu,
+                                      kernel_initializer=INIT_GLOROT_UNIFORM),
                 tf.keras.layers.Dropout(self.cfg.MLP_DROPOUT_RATIO),
-                tf.keras.layers.Dense(self.cfg.UNITS, kernel_initializer=self.cfg.INIT_HE_UNIFORM),
+                tf.keras.layers.Dense(self.cfg.UNITS, kernel_initializer=INIT_HE_UNIFORM),
             ]))
         
     def call(self, x, attention_mask):
