@@ -67,7 +67,7 @@ def get_model(config):
     # Pooling
     x = tf.reduce_sum(x * mask, axis=1) / tf.reduce_sum(mask, axis=1)
     # Classification Layer
-    x = tf.keras.layers.Dense(cfg.NUM_CLASSES, activation=tf.keras.activations.softmax, kernel_initializer=cfg.INIT_GLOROT_UNIFORM)(x)
+    x = tf.keras.layers.Dense(cfg.NUM_CLASSES, activation=tf.keras.activations.softmax, kernel_initializer=tf.keras.initializers.glorot_uniform)(x)
     outputs = x
     
     # Create Tensorflow Model
@@ -77,7 +77,7 @@ def get_model(config):
     loss = tf.keras.losses.SparseCategoricalCrossentropy()
     
     # Adam Optimizer with weight decay
-    optimizer = tfa.optimizers.AdamW(learning_rate=1e-3, weight_decay=1e-5, clipnorm=1.0)
+    optimizer = tfa.optimizers.AdamW(learning_rate=cfg.lr, weight_decay=cfg.weight_decay, clipnorm=cfg.clipnorm)
     
     lr_metric = get_lr_metric(optimizer)
     metrics = ["acc",lr_metric]
