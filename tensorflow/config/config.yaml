@@ -1,6 +1,7 @@
 PREPROCESS_DATA: False
 TRAIN_MODEL: False
 N_ROWS: 543
+N_COLS: 92
 N_DIMS: 3
 DIM_NAMES: ['x', 'y', 'z']
 SEED: 42
@@ -15,6 +16,20 @@ LR_MAX: 1e-3
 N_WARMUP_EPOCHS: 0
 WD_RATIO: 0.05
 MASK_VAL: 4237
+
+LIPS_IDXS0: np.array([
+        61, 185, 40, 39, 37, 0, 267, 269, 270, 409,
+        291, 146, 91, 181, 84, 17, 314, 405, 321, 375,
+        78, 191, 80, 81, 82, 13, 312, 311, 310, 415,
+        95, 88, 178, 87, 14, 317, 402, 318, 324, 308,
+    ])
+LEFT_HAND_IDXS0: [np.arange(468,489)
+RIGHT_HAND_IDXS0: np.arange(522,543)
+POSE_IDXS0       = np.arange(502, 512)
+LANDMARK_IDXS0   = np.concatenate((LIPS_IDXS0, LEFT_HAND_IDXS0, RIGHT_HAND_IDXS0, POSE_IDXS0))
+HAND_IDXS0       = np.concatenate((LEFT_HAND_IDXS0, RIGHT_HAND_IDXS0), axis=0)
+N_COLS           = LANDMARK_IDXS0.size
+N_COLS, LANDMARK_IDXS0
 
 
 # Epsilon value for layer normalisation

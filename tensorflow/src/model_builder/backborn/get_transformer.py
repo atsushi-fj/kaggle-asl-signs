@@ -3,6 +3,7 @@ import tensorflow_addons as tfa
 from ..transformer import CustomEmbedding
 from ..transformer import Transformer
 from ...utils import load_config
+from ...feature import create_feature_statistics
 
 def get_lr_metric(optimizer):
     def lr(y_true, y_pred):
@@ -11,6 +12,8 @@ def get_lr_metric(optimizer):
 
 def get_model(config):
     cfg = load_config(config)
+    statistics = create_feature_statistics()
+    LIPS_MEAN, LIPS_STD, LEFT_HANDS_MEAN, LEFT_HANDS_STD, RIGHT_HANDS_MEAN, RIGHT_HANDS_STD, POSE_MEAN, POSE_STD = statistics
     # Inputs
     frames = tf.keras.layers.Input([cfg.INPUT_SIZE, cfg.N_COLS, cfg.N_DIMS], dtype=tf.float32, name='frames')
     non_empty_frame_idxs = tf.keras.layers.Input([cfg.INPUT_SIZE], dtype=tf.float32, name='non_empty_frame_idxs')
