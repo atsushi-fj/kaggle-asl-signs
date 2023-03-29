@@ -7,10 +7,9 @@ INIT_ZEROS =  tf.keras.initializers.constant(0.0)
 
 
 class LandmarkEmbedding(tf.keras.Model):
-    def __init__(self, units, name, cfg):
+    def __init__(self, units, name):
         super(LandmarkEmbedding, self).__init__(name=f'{name}_embedding')
         self.units = units
-        self.cfg = cfg
         
     def build(self, input_shape):
         # Embedding for missing landmark in frame, initizlied with zeros
