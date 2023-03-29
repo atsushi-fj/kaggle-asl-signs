@@ -63,10 +63,10 @@ def get_transformer(config):
         )
     pose = tf.reshape(pose, [-1, cfg.INPUT_SIZE, 10*2])
     x = lips, left_hand, right_hand, pose
-    x = CustomEmbedding()(lips, left_hand, right_hand, pose, non_empty_frame_idxs)
+    x = CustomEmbedding(cfg)(lips, left_hand, right_hand, pose, non_empty_frame_idxs)
     
     # Encoder Transformer Blocks
-    x = Transformer(cfg.NUM_BLOCKS)(x, mask)
+    x = Transformer(cfg.NUM_BLOCKS, cfg)(x, mask)
     # Pooling
     x = tf.reduce_sum(x * mask, axis=1) / tf.reduce_sum(mask, axis=1)
     # Classification Layer
