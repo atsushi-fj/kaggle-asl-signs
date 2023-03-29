@@ -39,11 +39,13 @@ def load_config(file="config.yaml"):
     cfg = Namespace(**cfg)
     return cfg
 
+
 def load_data():
     X = np.load('input/X.npy')
     y = np.load('input/y.npy')
     NON_EMPTY_FRAME_IDXS = np.load('input/NON_EMPTY_FRAME_IDXS.npy')
     return X, y, NON_EMPTY_FRAME_IDXS 
+
 
 # Custom sampler to get a batch containing N times all signs
 def get_train_batch_all_signs(X, y, NON_EMPTY_FRAME_IDXS, cfg):
