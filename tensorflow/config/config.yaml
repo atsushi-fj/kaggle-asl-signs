@@ -42,8 +42,13 @@ lr: 1.e-3
 weight_decay: 1.e-5
 clipnorm: 1.0
 
+# Kfold
+CREATE_KFOLD: True
+k: 7
+
 # Path
-MODEL_PATH: "models/transformer_baseline"
+TRAIN_CSV_PATH: "input/train.csv"
+MODEL_PATH: "models/transformer_baseline.h5"
 MODEL_WEIGHTS_PATH: "models/transformer_weights_baseline"
 ARTIFACT: "transformer_model"
 ARTIFACT_DATA: "models/transformer_weights_baseline.data-00000-of-00001"

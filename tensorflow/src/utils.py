@@ -3,7 +3,10 @@ import yaml
 import tensorflow as tf
 import numpy as np
 import math
+import pandas as pd
 from argparse import Namespace
+from sklearn.model_selection import StratifiedGroupKFold
+
 
 # Custom callback to update weight decay with learning rate
 class WeightDecayCallback(tf.keras.callbacks.Callback):
@@ -68,3 +71,22 @@ def get_train_batch_all_signs(X, y, NON_EMPTY_FRAME_IDXS, cfg):
             non_empty_frame_idxs_batch[i*n:(i+1)*n] = NON_EMPTY_FRAME_IDXS[idxs]
         
         yield { 'frames': X_batch, 'non_empty_frame_idxs': non_empty_frame_idxs_batch }, y_batch
+
+
+def create_kfold(cfg):
+    train = pd.read_csv(cfg.TRAIN_CSV_PATH)
+    sgkf = StratifiedGroupKFold(n_splits=cfg.k, shuffle=True, random_state=cfg.SEED)
+    train['fold'] = -1
+    for i, (train_idx, val_idx) in enumerate(sgkf.split(train.index, train.sign, train.participant_id)):
+        train.loc[val_idx, 'fold'] = i 
+    train_idxs = train.query("fold!=0").index.values
+    val_idxs = train.query("fold==0").index.values
+    return train_idxs, val_idxs
+
+
+def load_relevant_data_subset(pq_path, cfg):
+    data_columns = cfg.DIM_NAMES
+    data = pd.read_parquet(pq_path, columns=data_columns)
+    n_frames = int(len(data) / cfg.N_ROWS)
+    data = data.values.reshape(n_frames, cfg.N_ROWS, len(data_columns))
+    return data.astype(np.float32)
