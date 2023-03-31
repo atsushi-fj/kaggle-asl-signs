@@ -31,15 +31,15 @@ def run(config):
     
     # Learning Rate Callback
     lr_callback = tf.keras.callbacks.LearningRateScheduler(lambda step: LR_SCHEDULE[step], verbose=1)
-    callbacks=[
+    
+    if cfg.CREATE_KFOLD:
+        callbacks=[
             lr_callback,
             WeightDecayCallback(model=model, cfg=cfg),
             tf.keras.callbacks.EarlyStopping(monitor="val_loss",
                                              patience=30),
-            wandb.keras.WandbCallback()
-    ]
-    
-    if cfg.CREATE_KFOLD:
+            wandb.keras.WandbCallback()]
+        
         model.fit(
         x=get_train_batch_all_signs(X_train,
                                     y_train,
@@ -57,6 +57,11 @@ def run(config):
         verbose=2,)
         
     else:
+        callbacks=[
+            lr_callback,
+            WeightDecayCallback(model=model, cfg=cfg),
+            wandb.keras.WandbCallback()]
+        
         model.fit(
             x=get_train_batch_all_signs(X, y, NON_EMPTY_FRAME_IDXS, cfg),
             steps_per_epoch=len(X) // (cfg.NUM_CLASSES * cfg.BATCH_ALL_SIGNS_N),
