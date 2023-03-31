@@ -34,6 +34,7 @@ def run(config):
                                              patience=30),
             wandb.keras.WandbCallback()
     ]
+    
     if cfg.CREATE_KFOLD:
         model.fit(
         x=get_train_batch_all_signs(X_train,
