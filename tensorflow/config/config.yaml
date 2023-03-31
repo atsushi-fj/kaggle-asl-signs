@@ -53,3 +53,8 @@ MODEL_WEIGHTS_PATH: "models/transformer_weights_baseline"
 ARTIFACT: "transformer_model"
 ARTIFACT_DATA: "models/transformer_weights_baseline.data-00000-of-00001"
 ARTIFACT_INDEX: "models/transformer_weights_baseline.index"
+
+# Wandb
+Project: "kaggle-asl-signs"
+EXPERIMENT_NAME: "100%_transformer_baseline"
+MODEL_NAME: "transformer"

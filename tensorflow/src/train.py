@@ -1,8 +1,7 @@
 import tensorflow as tf
-from .utils import WeightDecayCallback, load_config, lrfn, get_train_batch_all_signs, create_kfold
+from .utils import WeightDecayCallback, load_config, lrfn, get_train_batch_all_signs, create_kfold, create_display_name
 from .model_builder import get_transformer
 import wandb
-import numpy as np
 
 
 def run(config):
@@ -18,9 +17,11 @@ def run(config):
         y_train = y[train_idxs]
         y_val = y[val_idxs]
         
-    
-    run = wandb.init(project="kaggle-asl-signs", config=cfg, tags=['transformer', 'final-model'])
-    tf.keras.backend.clear_session()
+    name = create_display_name(experiment_name=cfg.EXPERIMENT_NAME,
+                               model_name=cfg.MODEL_NAME)
+    run = wandb.init(project=cfg.PROJECT,
+                     name=name,
+                     config=cfg)
     # Learning rate for encoder
     LR_SCHEDULE = [lrfn(step, num_warmup_steps=cfg.N_WARMUP_EPOCHS, lr_max=cfg.LR_MAX, cfg=cfg, num_cycles=0.50) for step in range(cfg.N_EPOCHS)]
     

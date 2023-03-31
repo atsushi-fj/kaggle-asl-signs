@@ -5,6 +5,7 @@ import numpy as np
 import math
 import pandas as pd
 from argparse import Namespace
+from datetime import datetime
 from sklearn.model_selection import StratifiedGroupKFold
 
 
@@ -90,3 +91,17 @@ def load_relevant_data_subset(pq_path, cfg):
     n_frames = int(len(data) / cfg.N_ROWS)
     data = data.values.reshape(n_frames, cfg.N_ROWS, len(data_columns))
     return data.astype(np.float32)
+
+
+def create_display_name(experiment_name,
+                        model_name,
+                        extra=None):
+
+    timestamp = datetime.now().strftime("%Y-%m-%d")
+
+    if extra:
+        name = f"{timestamp}-{experiment_name}-{model_name}-{extra}"
+    else:
+        name = f"{timestamp}-{experiment_name}-{model_name}"
+    print(f"[INFO] Create wandb saving to {name}")
+    return name
