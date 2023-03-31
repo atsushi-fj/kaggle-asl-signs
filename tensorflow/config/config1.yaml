@@ -48,11 +48,11 @@ k: 7
 
 # Path
 TRAIN_CSV_PATH: "input/train.csv"
-MODEL_PATH: "models/transformer_baseline.h5"
-MODEL_WEIGHTS_PATH: "models/transformer_weights_baseline"
+MODEL_PATH: "models/transformer_8layers.h5"
+MODEL_WEIGHTS_PATH: "models/transformer_weights_8layers"
 ARTIFACT: "transformer_model"
-ARTIFACT_DATA: "models/transformer_weights_baseline.data-00000-of-00001"
-ARTIFACT_INDEX: "models/transformer_weights_baseline.index"
+ARTIFACT_DATA: "models/transformer_weights_8layers.data-00000-of-00001"
+ARTIFACT_INDEX: "models/transformer_weights_8layers.index"
 
 # Wandb
 PROJECT: "kaggle-asl-signs"
