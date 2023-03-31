@@ -70,7 +70,6 @@ class Transformer(tf.keras.Model):
             x = x3 + x2
     
         return x
-    
 
 
 def scaled_dot_product(q,k,v, softmax, attention_mask):

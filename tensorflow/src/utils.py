@@ -9,8 +9,8 @@ from datetime import datetime
 from sklearn.model_selection import StratifiedGroupKFold
 
 
-# Custom callback to update weight decay with learning rate
 class WeightDecayCallback(tf.keras.callbacks.Callback):
+    """Custom callback to update weight decay with learning rate"""
     def __init__(self, model, cfg):
         self.model = model
         self.step_counter = 0
@@ -51,8 +51,8 @@ def load_data():
     return X, y, NON_EMPTY_FRAME_IDXS 
 
 
-# Custom sampler to get a batch containing N times all signs
 def get_train_batch_all_signs(X, y, NON_EMPTY_FRAME_IDXS, cfg):
+    """Custom sampler to get a batch containing N times all signs"""
     n=cfg.BATCH_ALL_SIGNS_N
     # Arrays to store batch in
     X_batch = np.zeros([cfg.NUM_CLASSES*n, cfg.INPUT_SIZE, cfg.N_COLS, cfg.N_DIMS], dtype=np.float32)

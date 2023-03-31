@@ -1,5 +1,6 @@
 import tensorflow as tf
-from .utils import WeightDecayCallback, load_config, lrfn, get_train_batch_all_signs, create_kfold, create_display_name
+from .utils import WeightDecayCallback, load_config, lrfn, \
+                   get_train_batch_all_signs, create_kfold, create_display_name
 from .model_builder import get_transformer
 import wandb
 
@@ -23,7 +24,10 @@ def run(config):
                      name=name,
                      config=cfg)
     # Learning rate for encoder
-    LR_SCHEDULE = [lrfn(step, num_warmup_steps=cfg.N_WARMUP_EPOCHS, lr_max=cfg.LR_MAX, cfg=cfg, num_cycles=0.50) for step in range(cfg.N_EPOCHS)]
+    LR_SCHEDULE = [lrfn(step, num_warmup_steps=cfg.N_WARMUP_EPOCHS,
+                        lr_max=cfg.LR_MAX,
+                        cfg=cfg,
+                        num_cycles=0.50) for step in range(cfg.N_EPOCHS)]
     
     # Learning Rate Callback
     lr_callback = tf.keras.callbacks.LearningRateScheduler(lambda step: LR_SCHEDULE[step], verbose=1)
