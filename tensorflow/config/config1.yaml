@@ -56,5 +56,5 @@ ARTIFACT_INDEX: "models/transformer_weights_baseline.index"
 
 # Wandb
 PROJECT: "kaggle-asl-signs"
-EXPERIMENT_NAME: "100%_transformer_baseline"
+EXPERIMENT_NAME: "60%_transformer_8layers"
 MODEL_NAME: "transformer"
