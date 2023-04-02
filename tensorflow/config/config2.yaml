@@ -25,12 +25,12 @@ LAYER_NORM_EPS: 1.e-6
 LIPS_UNITS: 384
 HANDS_UNITS: 384
 POSE_UNITS: 384
-# final embedding and transformer embedding size
-UNITS: 384
+# GRU size
+UNITS: 560
 
 # Transformer
-NUM_BLOCKS: 3
-MLP_RATIO: 2
+NUM_BLOCKS: 5
+DROPRATE: 0.3
 
 # Dropout
 EMBEDDING_DROPOUT: 0.00
@@ -48,13 +48,13 @@ k: 7
 
 # Path
 TRAIN_CSV_PATH: "input/train.csv"
-MODEL_PATH: "models/transformer_3layers.h5"
-MODEL_WEIGHTS_PATH: "models/transformer_weights_3layers"
+MODEL_PATH: "models/transformer_8layers.h5"
+MODEL_WEIGHTS_PATH: "models/transformer_weights_8layers"
 ARTIFACT: "transformer_model"
-ARTIFACT_DATA: "models/transformer_weights_3layers.data-00000-of-00001"
-ARTIFACT_INDEX: "models/transformer_weights_3layers.index"
+ARTIFACT_DATA: "models/transformer_weights_8layers.data-00000-of-00001"
+ARTIFACT_INDEX: "models/transformer_weights_8layers.index"
 
 # Wandb
 PROJECT: "kaggle-asl-signs"
-EXPERIMENT_NAME: "85%_transformer_8layers"
+EXPERIMENT_NAME: "60%_transformer_8layers"
 MODEL_NAME: "transformer"
