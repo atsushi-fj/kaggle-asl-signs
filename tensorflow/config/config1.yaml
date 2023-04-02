@@ -29,7 +29,7 @@ POSE_UNITS: 384
 UNITS: 384
 
 # Transformer
-NUM_BLOCKS: 3
+NUM_BLOCKS: 4
 MLP_RATIO: 2
 
 # Dropout
