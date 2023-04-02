@@ -30,7 +30,7 @@ UNITS: 384
 
 # Transformer
 NUM_BLOCKS: 4
-MLP_RATIO: 2
+MLP_RATIO: 4
 
 # Dropout
 EMBEDDING_DROPOUT: 0.00
