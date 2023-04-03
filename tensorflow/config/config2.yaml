@@ -13,7 +13,7 @@ VERBOSE: 2
 INPUT_SIZE: 32
 BATCH_ALL_SIGNS_N: 4
 BATCH_SIZE: 256
-N_EPOCHS: 50
+N_EPOCHS: 500
 LR_MAX: 1.e-3
 N_WARMUP_EPOCHS: 0
 WD_RATIO: 0.05
@@ -54,9 +54,9 @@ MODEL_PATH: "models/gru_baseline.h5"
 MODEL_WEIGHTS_PATH: "models/gru_weights_baseline"
 ARTIFACT: "gru_model"
 ARTIFACT_DATA: "models/gru_baseline.data-00000-of-00001"
-ARTIFACT_INDEX: "models/gru_weights.index"
+ARTIFACT_INDEX: "models/gru_weights_baseline.index"
 
 # Wandb
 PROJECT: "kaggle-asl-signs"
-EXPERIMENT_NAME: "60%_transformer_8layers"
+EXPERIMENT_NAME: "85%_gru_baseline"
 MODEL_NAME: "transformer"
