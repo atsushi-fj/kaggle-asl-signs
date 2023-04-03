@@ -3,6 +3,8 @@ TRAIN_MODEL: False
 N_ROWS: 543
 N_COLS: 92
 N_DIMS: 3
+N_FRAMES: 15
+SEGMENTS: 3
 DIM_NAMES: ['x', 'y', 'z']
 SEED: 42
 NUM_CLASSES: 250
@@ -48,11 +50,11 @@ k: 7
 
 # Path
 TRAIN_CSV_PATH: "input/train.csv"
-MODEL_PATH: "models/transformer_8layers.h5"
-MODEL_WEIGHTS_PATH: "models/transformer_weights_8layers"
-ARTIFACT: "transformer_model"
-ARTIFACT_DATA: "models/transformer_weights_8layers.data-00000-of-00001"
-ARTIFACT_INDEX: "models/transformer_weights_8layers.index"
+MODEL_PATH: "models/gru_baseline.h5"
+MODEL_WEIGHTS_PATH: "models/gru_weights_baseline"
+ARTIFACT: "gru_model"
+ARTIFACT_DATA: "models/gru_baseline.data-00000-of-00001"
+ARTIFACT_INDEX: "models/gru_weights.index"
 
 # Wandb
 PROJECT: "kaggle-asl-signs"
