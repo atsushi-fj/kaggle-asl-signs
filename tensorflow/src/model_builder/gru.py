@@ -15,8 +15,7 @@ class GRU(tf.keras.Model):
             self.gru_blocks = [
                 tf.keras.layers.GRU(cfg.UNITS,
                                     dropout=cfg.DROPRATE,
-                                    return_sequences=True)
-                * (cfg.NUM_BLOCKS - 2)]
+                                    return_sequences=True)] * (cfg.NUM_BLOCKS - 2)
             self.flag_use_gru_block = True
         else:
             self.flag_use_gru_blocks = False
