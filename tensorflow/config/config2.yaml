@@ -33,6 +33,10 @@ UNITS: 560
 NUM_BLOCKS: 5
 DROPRATE: 0.3
 
+# Transformer
+# NUM_BLOCKS: 4
+MLP_RATIO: 2
+
 # Optimizer
 lr: 1.e-3
 weight_decay: 1.e-5
