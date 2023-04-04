@@ -1,6 +1,6 @@
 import tensorflow as tf
 import tensorflow_addons as tfa
-from ...utils import load_data, get_lr_metric, load_config
+from ...utils import load_data, get_lr_metric
 from ..gru import GRU
 
 
