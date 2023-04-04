@@ -41,6 +41,7 @@ def run_transformer(config):
                                              patience=30),
             wandb.keras.WandbCallback()]
         
+        print("traing 開始")
         model.fit(
         x=get_train_batch_all_signs(X_train,
                                     y_train,
@@ -146,5 +147,3 @@ def run_gru(config):
     artifact.add_file(cfg.ARTIFACT_DATA)
     artifact.add_file(cfg.ARTIFACT_INDEX)
     run.log_artifact(artifact)
-    
-    
