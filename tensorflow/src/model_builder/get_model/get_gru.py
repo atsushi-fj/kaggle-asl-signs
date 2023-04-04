@@ -14,7 +14,7 @@ def get_gru(cfg):
     inputs = tf.keras.layers.Input(shape=(FLAT_FRAME_SHAPE,),
                                    dtype=tf.float32,
                                    name="inputs")
-    x = inputs[:, :NUM_BASE_FEATS]
+    # x = inputs[:, :NUM_BASE_FEATS]
     x = tf.reshape(inputs[:, NUM_BASE_FEATS:], (-1, cfg.NUM_FRAMES, INPUT_SHAPE[1]))
     
     outputs = GRU(cfg)(x)
@@ -31,3 +31,4 @@ def get_gru(cfg):
     metrics = ["acc",lr_metric]
     model.compile(loss=loss, optimizer=optimizer, metrics=metrics)
     return X, y, model
+
