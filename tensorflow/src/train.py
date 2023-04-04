@@ -1,7 +1,8 @@
 import tensorflow as tf
 from .utils import WeightDecayCallback, load_config, lrfn, \
-                   get_train_batch_all_signs, create_kfold, create_display_name
+                   create_kfold, create_display_name
 from .model_builder import get_transformer
+from .train_generator import get_train_batch_all_signs_gru
 import wandb
 
 
@@ -41,15 +42,13 @@ def run(config):
             wandb.keras.WandbCallback()]
         
         model.fit(
-        x=get_train_batch_all_signs(X_train,
-                                    y_train,
-                                    NON_EMPTY_FRAME_IDXS_TRAIN,
-                                    cfg),
+        x=get_train_batch_all_signs_gru(X_train,
+                                        y_train,
+                                        cfg),
         steps_per_epoch=len(X_train) // (cfg.NUM_CLASSES * cfg.BATCH_ALL_SIGNS_N),
-        validation_data=get_train_batch_all_signs(X_val,
-                                                  y_val,
-                                                  NON_EMPTY_FRAME_IDXS_VAL,
-                                                  cfg),
+        validation_data=get_train_batch_all_signs_gru(X_val,
+                                                      y_val,
+                                                      cfg),
         validation_steps=len(X_val) // (cfg.NUM_CLASSES * cfg.BATCH_ALL_SIGNS_N),
         epochs=cfg.N_EPOCHS,
         batch_size=cfg.BATCH_SIZE,
@@ -63,7 +62,7 @@ def run(config):
             wandb.keras.WandbCallback()]
         
         model.fit(
-            x=get_train_batch_all_signs(X, y, NON_EMPTY_FRAME_IDXS, cfg),
+            x=get_train_batch_all_signs_gru(X, y, cfg),
             steps_per_epoch=len(X) // (cfg.NUM_CLASSES * cfg.BATCH_ALL_SIGNS_N),
             epochs=cfg.N_EPOCHS,
             batch_size=cfg.BATCH_SIZE,

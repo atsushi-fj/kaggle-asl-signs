@@ -1,9 +1,8 @@
 import tensorflow as tf
 import tensorflow_addons as tfa
-import numpy as np
 from ..transformer import CustomEmbedding
 from ..transformer import Transformer
-from ...utils import load_config, load_data
+from ...utils import load_data
 from ...feature import create_feature_statistics
 
 
