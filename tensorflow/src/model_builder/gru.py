@@ -2,7 +2,7 @@ import tensorflow as tf
 
 
 class GRU(tf.keras.Model):
-    def __init___(self, cfg):
+    def __init__(self, cfg):
         super().__init__()
         self.start_gru = tf.keras.layers.GRU(cfg.UNITS,
                                             dropout=0.0,

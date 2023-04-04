@@ -1,6 +1,6 @@
 import tensorflow as tf
 import tensorflow_addons as tfa
-from ...utils import load_data, get_lr_metric
+from ...utils import load_data, get_lr_metric, load_config
 from ..gru import GRU
 
 
@@ -31,4 +31,3 @@ def get_gru(cfg):
     metrics = ["acc",lr_metric]
     model.compile(loss=loss, optimizer=optimizer, metrics=metrics)
     return X, y, model
-
