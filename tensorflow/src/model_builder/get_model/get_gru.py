@@ -19,7 +19,7 @@ def get_gru(cfg):
     
     outputs = GRU(cfg)(x)
     
-    model = tf.keras.models.Model(inputs=inputs, outpus=outputs)
+    model = tf.keras.models.Model(inputs=inputs, outputs=outputs)
     loss = tf.keras.losses.SparseCategoricalCrossentropy()
     
     # Adam Optimizer with weight decay

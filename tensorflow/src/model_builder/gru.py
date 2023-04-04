@@ -21,7 +21,7 @@ class GRU(tf.keras.Model):
         else:
             self.flag_use_gru_blocks = False
             
-        self.mlp = tf.keras.Seqential([
+        self.mlp = tf.keras.Sequential([
             tf.keras.layers.Dense(cfg.UNITS),
             tf.keras.layers.BatchNormalization(),
             tf.keras.layers.ReLU(),
