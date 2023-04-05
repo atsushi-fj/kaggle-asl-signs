@@ -36,7 +36,7 @@ class GRU(tf.keras.Model):
         x = self.start_gru(x)
         if self.flag_use_gru_block:
             for blk in self.gru_blocks:
-                x = tf.keras.layers.Bidirectional(blk)(x)
+                x = blk(x)
         x = self.end_gru(x)
         x = self.mlp(x)
         return x
