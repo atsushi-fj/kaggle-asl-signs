@@ -18,7 +18,8 @@ def get_gru(cfg):
     x = tf.reshape(inputs[:, NUM_BASE_FEATS:], (-1, cfg.NUM_FRAMES, INPUT_SHAPE[1]))
     
     x = GRU(cfg)(x)
-    outputs = tf.keras.layers.Softmax(dtype="float32")(x)
+    x = tf.keras.layers.Softmax(dtype="float32")(x)
+    outputs = tf.squeeze(x)
     
     model = tf.keras.models.Model(inputs=inputs, outputs=outputs)
     loss = "sparse_categorical_crossentropy"
