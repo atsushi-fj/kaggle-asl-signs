@@ -16,12 +16,11 @@ def get_gru(cfg):
     #                                name="inputs")
     # x = inputs[:, :NUM_BASE_FEATS]
     # x = tf.reshape(inputs[:, NUM_BASE_FEATS:], (-1, cfg.NUM_FRAMES, INPUT_SHAPE[1]))
-    inputs = tf.keras.layers.Input(shape=(-1, cfg.INPUT_SIZE, cfg.N_COLS, cfg.DIMS),
+    inputs = tf.keras.layers.Input(shape=(-1, cfg.INPUT_SIZE, cfg.N_COLS, cfg.N_DIMS),
                                    dtype=tf.float32,
                                    name="inputs")
     x = tf.reshape(inputs, (-1, cfg.INPUT_SIZE, cfg.N_COLS * cfg.DIMS))
-    x = GRU(cfg)(x)
-    outputs = tf.keras.layers.Softmax(dtype="float32")(x)
+    outputs = GRU(cfg)(x)
     
     model = tf.keras.models.Model(inputs=inputs, outputs=outputs)
     loss = "sparse_categorical_crossentropy"

@@ -29,7 +29,7 @@ class GRU(tf.keras.Model):
             tf.keras.layers.BatchNormalization(),
             tf.keras.layers.ReLU(),
             tf.keras.layers.Dropout(cfg.DROPRATE, seed=cfg.SEED),
-            tf.keras.layers.Dense(cfg.NUM_CLASSES)
+            tf.keras.layers.Dense(cfg.NUM_CLASSES, activation="softmax")
         ])
 
     def call(self, x):
