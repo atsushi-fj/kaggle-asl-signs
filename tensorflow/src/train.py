@@ -114,16 +114,14 @@ def run_gru(config):
             wandb.keras.WandbCallback()]
         
         model.fit(
-        x=get_train_batch_all_signs_gru(X_train,
-                                        y_train,
-                                        cfg),
+        X_train, y_train,
         steps_per_epoch=len(X_train) // (cfg.NUM_CLASSES * cfg.BATCH_ALL_SIGNS_N),
         validation_data=get_train_batch_all_signs_gru(X_val,
                                                       y_val,
                                                       cfg),
         validation_steps=len(X_val) // (cfg.NUM_CLASSES * cfg.BATCH_ALL_SIGNS_N),
         epochs=cfg.N_EPOCHS,
-        # batch_size=cfg.BATCH_SIZE,
+        batch_size=cfg.BATCH_SIZE,
         callbacks=callbacks,
         verbose=2,)
         
@@ -137,7 +135,7 @@ def run_gru(config):
             x=get_train_batch_all_signs_gru(X, y, cfg),
             steps_per_epoch=len(X) // (cfg.NUM_CLASSES * cfg.BATCH_ALL_SIGNS_N),
             epochs=cfg.N_EPOCHS,
-            # batch_size=cfg.BATCH_SIZE,
+            batch_size=cfg.BATCH_SIZE,
             callbacks=callbacks,
             verbose=2,)
      
