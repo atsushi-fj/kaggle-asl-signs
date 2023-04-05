@@ -19,7 +19,7 @@ def get_gru(cfg):
     inputs = tf.keras.layers.Input(shape=(-1, cfg.INPUT_SIZE, cfg.N_COLS, cfg.N_DIMS),
                                    dtype=tf.float32,
                                    name="inputs")
-    x = tf.reshape(inputs, (-1, cfg.INPUT_SIZE, cfg.N_COLS * cfg.DIMS))
+    x = tf.reshape(inputs, (-1, cfg.INPUT_SIZE, cfg.N_COLS * cfg.N_DIMS))
     outputs = GRU(cfg)(x)
     
     model = tf.keras.models.Model(inputs=inputs, outputs=outputs)
