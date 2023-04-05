@@ -89,7 +89,7 @@ def run_gru(config):
         X_val = X[val_idxs]
         y_train = y[train_idxs]
         y_val = y[val_idxs]
-        tain_dataset, val_dataset = get_gru_dataset(batch_size=cfg.BATCH_SIZE,
+        train_dataset, val_dataset = get_gru_dataset(batch_size=cfg.BATCH_SIZE,
                                                      X_train=X_train,
                                                      y_train=y_train,
                                                      X_val=X_val,
@@ -122,15 +122,14 @@ def run_gru(config):
                                              patience=30),
             wandb.keras.WandbCallback()]
         
-        model.fit(
-        x=train_dataset,
-        steps_per_epoch=len(train_dataset),
-        validation_data=val_dataset,
-        validation_steps=len(val_dataset),
-        epochs=cfg.N_EPOCHS,
-        batch_size=cfg.BATCH_SIZE,
-        callbacks=callbacks,
-        verbose=2,)
+        model.fit(x=train_dataset,
+                  steps_per_epoch=len(train_dataset),
+                  validation_data=val_dataset,
+                  validation_steps=len(val_dataset),
+                  epochs=cfg.N_EPOCHS,
+                  batch_size=cfg.BATCH_SIZE,
+                  callbacks=callbacks,
+                  verbose=2)
         
     else:
         callbacks=[
@@ -144,7 +143,7 @@ def run_gru(config):
             epochs=cfg.N_EPOCHS,
             batch_size=cfg.BATCH_SIZE,
             callbacks=callbacks,
-            verbose=2,)
+            verbose=2)
      
     model.save(cfg.MODEL_PATH)
     model.save_weights(cfg.MODEL_WEIGHTS_PATH)
