@@ -46,7 +46,7 @@ def get_train_batch_all_signs_gru(X, y, cfg):
         yield X_batch, y_batch
 
 
-def get_gru_dataset(batch_size, X_train, y_train, X_val, y_val):
+def get_gru_dataset(batch_size, X_train, y_train, X_val=None, y_val=None):
     train_features_dataset = tf.data.Dataset.from_tensor_slices(X_train)
     train_labels_dataset = tf.data.Dataset.from_tensor_slices(y_train)
     train_dataset = tf.data.Dataset.zip((train_features_dataset, train_labels_dataset))
