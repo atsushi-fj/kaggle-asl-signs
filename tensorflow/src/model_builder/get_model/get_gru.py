@@ -17,10 +17,11 @@ def get_gru(cfg):
     # x = inputs[:, :NUM_BASE_FEATS]
     x = tf.reshape(inputs[:, NUM_BASE_FEATS:], (-1, cfg.NUM_FRAMES, INPUT_SHAPE[1]))
     
-    outputs = GRU(cfg)(x)
+    x = GRU(cfg)(x)
+    outputs = tf.keras.layers.Softmax(dtype="float32")(x)
     
     model = tf.keras.models.Model(inputs=inputs, outputs=outputs)
-    loss = tf.keras.losses.SparseCategoricalCrossentropy()
+    loss = "sparse_categorical_crossentropy"
     
     # Adam Optimizer with weight decay
     optimizer = tfa.optimizers.AdamW(learning_rate=cfg.lr,
