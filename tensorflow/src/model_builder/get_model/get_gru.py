@@ -7,15 +7,6 @@ from ..gru import GRU
 def get_gru(cfg):
     X, y, _ = load_data()
     
-    INPUT_SHAPE = (cfg.NUM_FRAMES, cfg.N_COLS * (cfg.N_DIMS-1))
-    NUM_BASE_FEATS = (cfg.SEGMENTS + 1) * INPUT_SHAPE[1] * 2
-    FLAT_FRAME_SHAPE = NUM_BASE_FEATS + (INPUT_SHAPE[0] * INPUT_SHAPE[1])
-    
-    # inputs = tf.keras.layers.Input(shape=(FLAT_FRAME_SHAPE,),
-    #                                dtype=tf.float32,
-    #                                name="inputs")
-    # x = inputs[:, :NUM_BASE_FEATS]
-    # x = tf.reshape(inputs[:, NUM_BASE_FEATS:], (-1, cfg.NUM_FRAMES, INPUT_SHAPE[1]))
     inputs = tf.keras.layers.Input(shape=(cfg.INPUT_SIZE, cfg.N_COLS, cfg.N_DIMS),
                                    dtype=tf.float32,
                                    name="inputs")

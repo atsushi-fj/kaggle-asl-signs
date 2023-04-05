@@ -38,7 +38,8 @@ def run_transformer(config):
             lr_callback,
             WeightDecayCallback(model=model, cfg=cfg),
             tf.keras.callbacks.EarlyStopping(monitor="val_loss",
-                                             patience=30),
+                                             patience=cfg.PATIENCE,
+                                             restore_best_weights=True),
             wandb.keras.WandbCallback()]
         model.fit(
         x=get_train_batch_all_signs(X_train,
@@ -119,7 +120,8 @@ def run_gru(config):
             lr_callback,
             WeightDecayCallback(model=model, cfg=cfg),
             tf.keras.callbacks.EarlyStopping(monitor="val_loss",
-                                             patience=30),
+                                             patience=cfg.PATIENCE,
+                                             restore_best_weights=True),
             wandb.keras.WandbCallback()]
         
         model.fit(x=train_dataset,

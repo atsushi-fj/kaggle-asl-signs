@@ -30,7 +30,8 @@ POSE_UNITS: 384
 
 # GRU 
 UNITS: 560
-NUM_BLOCKS: 5
+# Base 5
+NUM_BLOCKS: 7
 DROPRATE: 0.3
 
 # Transformer
@@ -50,6 +51,9 @@ clipnorm: 1.0
 # Kfold
 CREATE_KFOLD: True
 k: 7
+
+# Earlystopping
+PATIENCE: 30
 
 # Path
 TRAIN_CSV_PATH: "input/train.csv"
