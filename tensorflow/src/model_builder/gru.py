@@ -18,7 +18,7 @@ class GRU(tf.keras.Model):
                                     return_sequences=True)] * (cfg.NUM_BLOCKS - 2)
             self.flag_use_gru_block = True
         else:
-            self.flag_use_gru_blocks = False
+            self.flag_use_gru_block = False
             
         self.mlp = tf.keras.Sequential([
             tf.keras.layers.Dense(cfg.UNITS),
