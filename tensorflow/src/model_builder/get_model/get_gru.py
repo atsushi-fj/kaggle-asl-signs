@@ -11,12 +11,15 @@ def get_gru(cfg):
     NUM_BASE_FEATS = (cfg.SEGMENTS + 1) * INPUT_SHAPE[1] * 2
     FLAT_FRAME_SHAPE = NUM_BASE_FEATS + (INPUT_SHAPE[0] * INPUT_SHAPE[1])
     
-    inputs = tf.keras.layers.Input(shape=(FLAT_FRAME_SHAPE,),
+    # inputs = tf.keras.layers.Input(shape=(FLAT_FRAME_SHAPE,),
+    #                                dtype=tf.float32,
+    #                                name="inputs")
+    # x = inputs[:, :NUM_BASE_FEATS]
+    # x = tf.reshape(inputs[:, NUM_BASE_FEATS:], (-1, cfg.NUM_FRAMES, INPUT_SHAPE[1]))
+    inputs = tf.keras.layers.Input(shape=(-1, cfg.INPUT_SIZE, cfg.N_COLS, cfg.DIMS),
                                    dtype=tf.float32,
                                    name="inputs")
-    # x = inputs[:, :NUM_BASE_FEATS]
-    x = tf.reshape(inputs[:, NUM_BASE_FEATS:], (-1, cfg.NUM_FRAMES, INPUT_SHAPE[1]))
-    
+    x = tf.reshape(inputs, (-1, cfg.INPUT_SIZE, cfg.N_COLS * cfg.DIMS))
     x = GRU(cfg)(x)
     outputs = tf.keras.layers.Softmax(dtype="float32")(x)
     

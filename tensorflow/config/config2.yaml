@@ -1,7 +1,7 @@
 PREPROCESS_DATA: False
 TRAIN_MODEL: False
 N_ROWS: 543
-N_COLS: 92
+N_COLS: 92  # number of landmark 
 N_DIMS: 3
 NUM_FRAMES: 15
 SEGMENTS: 3

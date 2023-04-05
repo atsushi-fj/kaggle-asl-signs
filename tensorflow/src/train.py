@@ -2,7 +2,7 @@ import tensorflow as tf
 from .utils import WeightDecayCallback, load_config, lrfn, \
                    create_kfold, create_display_name
 from .model_builder import get_gru, get_transformer
-from .train_generator import get_train_batch_all_signs_gru, get_train_batch_all_signs
+from .train_generator import get_train_batch_all_signs, get_gru_dataset
 import wandb
 
 
@@ -40,8 +40,6 @@ def run_transformer(config):
             tf.keras.callbacks.EarlyStopping(monitor="val_loss",
                                              patience=30),
             wandb.keras.WandbCallback()]
-        
-        print("traing 開始")
         model.fit(
         x=get_train_batch_all_signs(X_train,
                                     y_train,
@@ -84,18 +82,29 @@ def run_gru(config):
     cfg = load_config(config)
     X, y, model = get_gru(cfg)
     
+    # create dataset
     if cfg.CREATE_KFOLD:
         train_idxs, val_idxs = create_kfold(cfg)
         X_train = X[train_idxs]
         X_val = X[val_idxs]
         y_train = y[train_idxs]
         y_val = y[val_idxs]
+        tain_dataset, val_dataset = get_gru_dataset(batch_size=cfg.BATCH_SIZE,
+                                                     X_train=X_train,
+                                                     y_train=y_train,
+                                                     X_val=X_val,
+                                                     y_val=y_val)
+    else:
+        train_dataset = get_gru_dataset(batch_size=cfg.BATCH_SIZE,
+                                        X_train=X,
+                                        y_train=y)
         
     name = create_display_name(experiment_name=cfg.EXPERIMENT_NAME,
                                model_name=cfg.MODEL_NAME)
     run = wandb.init(project=cfg.PROJECT,
                      name=name,
                      config=cfg)
+    
     # Learning rate for encoder
     LR_SCHEDULE = [lrfn(step, num_warmup_steps=cfg.N_WARMUP_EPOCHS,
                         lr_max=cfg.LR_MAX,
@@ -114,12 +123,10 @@ def run_gru(config):
             wandb.keras.WandbCallback()]
         
         model.fit(
-        X_train, y_train,
-        steps_per_epoch=len(X_train) // (cfg.NUM_CLASSES * cfg.BATCH_ALL_SIGNS_N),
-        validation_data=get_train_batch_all_signs_gru(X_val,
-                                                      y_val,
-                                                      cfg),
-        validation_steps=len(X_val) // (cfg.NUM_CLASSES * cfg.BATCH_ALL_SIGNS_N),
+        x=train_dataset,
+        steps_per_epoch=len(train_dataset),
+        validation_data=val_dataset,
+        validation_steps=len(val_dataset),
         epochs=cfg.N_EPOCHS,
         batch_size=cfg.BATCH_SIZE,
         callbacks=callbacks,
@@ -132,8 +139,8 @@ def run_gru(config):
             wandb.keras.WandbCallback()]
         
         model.fit(
-            x=get_train_batch_all_signs_gru(X, y, cfg),
-            steps_per_epoch=len(X) // (cfg.NUM_CLASSES * cfg.BATCH_ALL_SIGNS_N),
+            x=train_dataset,
+            steps_per_epoch=len(train_dataset),
             epochs=cfg.N_EPOCHS,
             batch_size=cfg.BATCH_SIZE,
             callbacks=callbacks,
