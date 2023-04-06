@@ -11,7 +11,7 @@ def get_gru(cfg):
     X = create_gru_features(X)
     print(X.shape)
     
-    inputs = tf.keras.layers.Input(shape=(cfg.BATCH_SIZE, X.shape[1], cfg.N_DIMS),
+    inputs = tf.keras.layers.Input(shape=(X.shape[1], cfg.N_DIMS),
                                    dtype=tf.float32,
                                    name="inputs")
     outputs = GRU(cfg)(inputs)
