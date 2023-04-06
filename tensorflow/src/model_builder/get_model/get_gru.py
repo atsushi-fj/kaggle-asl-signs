@@ -9,6 +9,7 @@ from ..gru import GRU
 def get_gru(cfg):
     X, y = load_gru_data()
     X = create_gru_features(X)
+    print(X.shape)
     
     inputs = tf.keras.layers.Input(shape=(cfg.BATCH_SIZE, X.shape[1], cfg.N_DIMS),
                                    dtype=tf.float32,

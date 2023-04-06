@@ -50,10 +50,12 @@ def load_data():
     NON_EMPTY_FRAME_IDXS = np.load('input/NON_EMPTY_FRAME_IDXS.npy')
     return X, y, NON_EMPTY_FRAME_IDXS 
 
+
 def load_gru_data():
     X = np.load("input/X_gru.npy")
     y = np.load("input/y_gru.npy")
     return X, y
+
 
 def create_kfold(cfg):
     train = pd.read_csv(cfg.TRAIN_CSV_PATH)
