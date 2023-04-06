@@ -16,7 +16,6 @@ def create_feature_statistics(X):
     POSE_IDXS0       = np.arange(502, 512)
     LANDMARK_IDXS0   = np.concatenate((LIPS_IDXS0, LEFT_HAND_IDXS0, RIGHT_HAND_IDXS0, POSE_IDXS0))
     HAND_IDXS0       = np.concatenate((LEFT_HAND_IDXS0, RIGHT_HAND_IDXS0), axis=0)
-    N_COLS           = LANDMARK_IDXS0.size
     
     # Landmark indices in processed data
     LIPS_IDXS       = np.argwhere(np.isin(LANDMARK_IDXS0, LIPS_IDXS0)).squeeze() 
@@ -110,5 +109,17 @@ def create_feature_statistics(X):
     return statistics
 
 
-
-        
+def create_gru_features(X):
+    LIPS_IDXS0 = np.array([
+            61, 185, 40, 39, 37, 0, 267, 269, 270, 409,
+            291, 146, 91, 181, 84, 17, 314, 405, 321, 375,
+            78, 191, 80, 81, 82, 13, 312, 311, 310, 415,
+            95, 88, 178, 87, 14, 317, 402, 318, 324, 308,
+        ])
+    LEFT_HAND_IDXS0  = np.arange(468,489)
+    RIGHT_HAND_IDXS0 = np.arange(522,543)
+    POSE_IDXS0       = np.arange(502, 512)
+    LANDMARK_IDXS0   = np.concatenate((LIPS_IDXS0, LEFT_HAND_IDXS0, RIGHT_HAND_IDXS0, POSE_IDXS0))
+    X = X[:, LANDMARK_IDXS0]
+    return X
+    

@@ -1,17 +1,19 @@
 import tensorflow as tf
 import tensorflow_addons as tfa
-from ...utils import load_data, get_lr_metric
+import numpy as np
+from ...utils import load_gru_data, get_lr_metric
+from ...feature import create_gru_features
 from ..gru import GRU
 
 
 def get_gru(cfg):
-    X, y, _ = load_data()
+    X, y = load_gru_data()
+    X = create_gru_features(X)
     
-    inputs = tf.keras.layers.Input(shape=(cfg.INPUT_SIZE, cfg.N_COLS, cfg.N_DIMS),
+    inputs = tf.keras.layers.Input(shape=(cfg.BATCH_SIZE, X.shape[1], cfg.N_DIMS),
                                    dtype=tf.float32,
                                    name="inputs")
-    x = tf.reshape(inputs, (-1, cfg.INPUT_SIZE, cfg.N_COLS * cfg.N_DIMS))
-    outputs = GRU(cfg)(x)
+    outputs = GRU(cfg)(inputs)
     
     model = tf.keras.models.Model(inputs=inputs, outputs=outputs)
     loss = "sparse_categorical_crossentropy"
