@@ -52,10 +52,10 @@ def get_gru_dataset(batch_size, X_train, y_train, X_val=None, y_val=None):
     train_dataset = tf.data.Dataset.zip((train_features_dataset, train_labels_dataset))
     train_dataset = train_dataset.batch(batch_size).prefetch(tf.data.AUTOTUNE)
     
-    if not X_val.all():
+    if X_val is not None:
         val_features_dataet = tf.data.Dataset.from_tensor_slices(X_val)
         val_labels_dataset = tf.data.Dataset.from_tensor_slices(y_val)
         val_dataset = tf.data.Dataset.zip((val_features_dataet, val_labels_dataset))
         val_dataset = val_dataset.batch(batch_size).prefetch(tf.data.AUTOTUNE)
         
-    return train_dataset, val_dataset if not X_val.all() else train_dataset
+    return train_dataset, val_dataset if X_val is not None else train_dataset
