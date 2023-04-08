@@ -46,16 +46,25 @@ def get_train_batch_all_signs_gru(X, y, cfg):
         yield X_batch, y_batch
 
 
-def get_gru_dataset(batch_size, X_train, y_train, X_val=None, y_val=None):
+def get_gru_dataset_kfold(batch_size, X_train, y_train, X_val, y_val):
     train_features_dataset = tf.data.Dataset.from_tensor_slices(X_train)
     train_labels_dataset = tf.data.Dataset.from_tensor_slices(y_train)
     train_dataset = tf.data.Dataset.zip((train_features_dataset, train_labels_dataset))
     train_dataset = train_dataset.batch(batch_size).prefetch(tf.data.AUTOTUNE)
     
-    if X_val is not None:
-        val_features_dataet = tf.data.Dataset.from_tensor_slices(X_val)
-        val_labels_dataset = tf.data.Dataset.from_tensor_slices(y_val)
-        val_dataset = tf.data.Dataset.zip((val_features_dataet, val_labels_dataset))
-        val_dataset = val_dataset.batch(batch_size).prefetch(tf.data.AUTOTUNE)
+    val_features_dataet = tf.data.Dataset.from_tensor_slices(X_val)
+    val_labels_dataset = tf.data.Dataset.from_tensor_slices(y_val)
+    val_dataset = tf.data.Dataset.zip((val_features_dataet, val_labels_dataset))
+    val_dataset = val_dataset.batch(batch_size).prefetch(tf.data.AUTOTUNE)
         
-    return train_dataset, val_dataset if X_val is not None else train_dataset
+    return train_dataset, val_dataset
+
+
+def get_gru_dataset_not_kfold(batch_size, X_train, y_train):
+    train_features_dataset = tf.data.Dataset.from_tensor_slices(X_train)
+    train_labels_dataset = tf.data.Dataset.from_tensor_slices(y_train)
+    train_dataset = tf.data.Dataset.zip((train_features_dataset, train_labels_dataset))
+    train_dataset = train_dataset.batch(batch_size).prefetch(tf.data.AUTOTUNE)
+        
+    return train_dataset
+

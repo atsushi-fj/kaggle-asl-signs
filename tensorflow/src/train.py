@@ -2,7 +2,7 @@ import tensorflow as tf
 from .utils import WeightDecayCallback, load_config, lrfn, \
                    create_kfold, create_display_name
 from .model_builder import get_gru, get_transformer
-from .train_generator import get_train_batch_all_signs, get_gru_dataset
+from .train_generator import get_train_batch_all_signs, get_gru_dataset_kfold, get_gru_dataset_not_kfold
 import wandb
 
 
@@ -90,15 +90,15 @@ def run_gru(config):
         X_val = X[val_idxs]
         y_train = y[train_idxs]
         y_val = y[val_idxs]
-        train_dataset, val_dataset = get_gru_dataset(batch_size=cfg.BATCH_SIZE,
-                                                     X_train=X_train,
-                                                     y_train=y_train,
-                                                     X_val=X_val,
-                                                     y_val=y_val)
+        train_dataset, val_dataset = get_gru_dataset_kfold(batch_size=cfg.BATCH_SIZE,
+                                                           X_train=X_train,
+                                                           y_train=y_train,
+                                                           X_val=X_val,
+                                                           y_val=y_val)
     else:
-        train_dataset = get_gru_dataset(batch_size=cfg.BATCH_SIZE,
-                                        X_train=X,
-                                        y_train=y)
+        train_dataset = get_gru_dataset_not_kfold(batch_size=cfg.BATCH_SIZE,
+                                                  X_train=X,
+                                                  y_train=y)
         
     name = create_display_name(experiment_name=cfg.EXPERIMENT_NAME,
                                model_name=cfg.MODEL_NAME)
