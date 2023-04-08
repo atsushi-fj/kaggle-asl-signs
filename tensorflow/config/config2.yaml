@@ -30,8 +30,8 @@ POSE_UNITS: 384
 
 # GRU 
 UNITS: 560
-# Base 5 best  8
-NUM_BLOCKS: 3
+# Base 5 best  8 3 best
+NUM_BLOCKS: 4
 DROPRATE: 0.3
 
 # Transformer
