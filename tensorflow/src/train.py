@@ -149,7 +149,3 @@ def run_gru(config):
      
     model.save(cfg.MODEL_PATH)
     model.save_weights(cfg.MODEL_WEIGHTS_PATH)
-    # artifact = wandb.Artifact(cfg.ARTIFACT, type='model')
-    # artifact.add_file(cfg.ARTIFACT_DATA)
-    # artifact.add_file(cfg.ARTIFACT_INDEX)
-    # run.log_artifact(artifact)
