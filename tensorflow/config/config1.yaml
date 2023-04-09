@@ -46,6 +46,9 @@ clipnorm: 1.0
 CREATE_KFOLD: True
 k: 7
 
+# Earlystopping
+PATIENCE: 30
+
 # Path
 TRAIN_CSV_PATH: "input/train.csv"
 MODEL_PATH: "models/transformer_2layers.h5"
