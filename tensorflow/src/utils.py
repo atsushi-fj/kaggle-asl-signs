@@ -56,7 +56,12 @@ def load_gru_data():
     y = np.load("input/y_gru.npy")
     return X, y
 
-
+def load_input64_data():
+    X = np.load('input/X_input_64.npy')
+    y = np.load('input/y_input_64.npy')
+    NON_EMPTY_FRAME_IDXS = np.load('input/NON_EMPTY_FRAME_IDXS_input_64.npy')
+    return X, y, NON_EMPTY_FRAME_IDXS 
+    
 def create_kfold(cfg):
     train = pd.read_csv(cfg.TRAIN_CSV_PATH)
     sgkf = StratifiedGroupKFold(n_splits=cfg.k, shuffle=True, random_state=cfg.SEED)

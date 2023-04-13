@@ -2,7 +2,7 @@ import tensorflow as tf
 import tensorflow_addons as tfa
 from ..transformer import CustomEmbedding
 from ..transformer import Transformer
-from ...utils import load_data
+from ...utils import load_data, load_input64_data
 from ...feature import create_feature_statistics
 
 
@@ -13,7 +13,7 @@ def get_lr_metric(optimizer):
 
 
 def get_transformer(cfg):
-    X, y, NON_EMPTY_FRAME_IDXS = load_data()
+    X, y, NON_EMPTY_FRAME_IDXS = load_input64_data()
     feature_stats = create_feature_statistics(X)
     # Inputs
     frames = tf.keras.layers.Input([cfg.INPUT_SIZE, cfg.N_COLS, cfg.N_DIMS],
