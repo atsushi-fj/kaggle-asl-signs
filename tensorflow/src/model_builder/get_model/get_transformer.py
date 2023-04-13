@@ -24,7 +24,7 @@ def get_transformer(cfg):
                                                  name='non_empty_frame_idxs')
     # Padding Mask
     mask0 = tf.cast(tf.math.not_equal(non_empty_frame_idxs, -1), tf.float32)
-    mask0 = tf.expand_dims(mask, axis=2)
+    mask0 = tf.expand_dims(mask0, axis=2)
     # Random Frame Masking
     mask = tf.where(
         (tf.random.uniform(tf.shape(mask0)) > 0.25) & tf.math.not_equal(mask0, 0.0),
