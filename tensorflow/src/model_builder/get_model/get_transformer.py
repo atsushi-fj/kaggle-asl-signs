@@ -12,6 +12,15 @@ def get_lr_metric(optimizer):
     return lr
 
 
+def scce_with_ls(y_true, y_pred):
+    # One Hot Encode Sparsely Encoded Target Sign
+    y_true = tf.cast(y_true, tf.int32)
+    y_true = tf.one_hot(y_true, 250, axis=1)
+    y_true = tf.squeeze(y_true, axis=2)
+    # Categorical Crossentropy with native label smoothing support
+    return tf.keras.losses.categorical_crossentropy(y_true, y_pred, label_smoothing=0.25)
+
+
 def get_transformer(cfg):
     X, y, NON_EMPTY_FRAME_IDXS = load_input64_data()
     feature_stats = create_feature_statistics_input64(X)
@@ -89,8 +98,8 @@ def get_transformer(cfg):
     # Create Tensorflow Model
     model = tf.keras.models.Model(inputs=[frames, non_empty_frame_idxs], outputs=outputs)
     
-    # Simple Categorical Crossentropy Loss
-    loss = tf.keras.losses.SparseCategoricalCrossentropy()
+    # Sparse Categorical Cross Entropy With Label Smoothing
+    loss = scce_with_ls
     
     # Adam Optimizer with weight decay
     optimizer = tfa.optimizers.AdamW(learning_rate=cfg.lr,
@@ -98,6 +107,13 @@ def get_transformer(cfg):
                                      clipnorm=cfg.clipnorm)
     
     lr_metric = get_lr_metric(optimizer)
-    metrics = ["acc",lr_metric]
+    
+    # TopK Metrics
+    metrics = [
+        tf.keras.metrics.SparseCategoricalAccuracy(name='acc'),
+        tf.keras.metrics.SparseTopKCategoricalAccuracy(k=5, name='top_5_acc'),
+        tf.keras.metrics.SparseTopKCategoricalAccuracy(k=10, name='top_10_acc'),
+        lr_metric
+    ]
     model.compile(loss=loss, optimizer=optimizer, metrics=metrics)
     return X, y, NON_EMPTY_FRAME_IDXS, model

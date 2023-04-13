@@ -148,8 +148,8 @@ class PreprocessLayerDominant(tf.keras.layers.Layer):
         N_FRAMES0 = tf.shape(data0)[0]
         
         # Find dominant hand by comparing summed absolute coordinates
-        left_hand_sum = tf.math.reduce_sum(tf.where(tf.math.is_nan(tf.gather(data0, LEFT_HAND_IDXS0, axis=1)), 0, 1))
-        right_hand_sum = tf.math.reduce_sum(tf.where(tf.math.is_nan(tf.gather(data0, RIGHT_HAND_IDXS0, axis=1)), 0, 1))
+        left_hand_sum = tf.math.reduce_sum(tf.where(tf.math.is_nan(tf.gather(data0,  self.LEFT_HAND_IDXS0, axis=1)), 0, 1))
+        right_hand_sum = tf.math.reduce_sum(tf.where(tf.math.is_nan(tf.gather(data0, self.RIGHT_HAND_IDXS0, axis=1)), 0, 1))
         left_dominant = left_hand_sum >= right_hand_sum
         
         # Count non NaN Hand values in each frame for the dominant hand
