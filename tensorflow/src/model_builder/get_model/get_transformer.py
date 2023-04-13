@@ -59,15 +59,6 @@ def get_transformer(cfg):
         )
     left_hand = tf.reshape(left_hand, [-1, cfg.INPUT_SIZE, 21*2])
     
-    # RIGHT HAND
-    right_hand = tf.slice(x, [0,0,61,0], [-1,cfg.INPUT_SIZE, 21, 2])
-    right_hand = tf.where(
-            tf.math.equal(right_hand, 0.0),
-            0.0,
-            (right_hand - feature_stats["right_hand"][1]) / feature_stats["right_hand"][2],
-        )
-    right_hand = tf.reshape(right_hand, [-1, cfg.INPUT_SIZE, 21*2])
-    
     # POSE
     pose = tf.slice(x, [0,0,82,0], [-1,cfg.INPUT_SIZE, 10, 2])
     pose = tf.where(
@@ -76,13 +67,19 @@ def get_transformer(cfg):
             (pose - feature_stats["pose"][1]) / feature_stats["pose"][2],
         )
     pose = tf.reshape(pose, [-1, cfg.INPUT_SIZE, 10*2])
-    x = lips, left_hand, right_hand, pose
-    x = CustomEmbedding(cfg)(lips, left_hand, right_hand, pose, non_empty_frame_idxs)
+    
+
+    x = CustomEmbedding(cfg)(lips, left_hand, pose, non_empty_frame_idxs)
     
     # Encoder Transformer Blocks
     x = Transformer(cfg.NUM_BLOCKS, cfg)(x, mask)
+    
     # Pooling
     x = tf.reduce_sum(x * mask, axis=1) / tf.reduce_sum(mask, axis=1)
+    
+    # Classifier Dropout
+    x = tf.keras.layers.Dropout(cfg.CLASSIFIER_DROPOUT_RATIO)(x)
+    
     # Classification Layer
     x = tf.keras.layers.Dense(cfg.NUM_CLASSES,
                               activation=tf.keras.activations.softmax,

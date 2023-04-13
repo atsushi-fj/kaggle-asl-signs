@@ -189,21 +189,13 @@ def create_feature_statistics_input64(X):
                 if col < RIGHT_HAND_IDXS.size: # LEFT HAND
                     LEFT_HANDS_MEAN_X[col] = v.mean()
                     LEFT_HANDS_STD_X[col] = v.std()
-                else:
-                    RIGHT_HANDS_MEAN_X[col - LEFT_HAND_IDXS.size] = v.mean()
-                    RIGHT_HANDS_STD_X[col - LEFT_HAND_IDXS.size] = v.std()
             if dim == 1: # Y
                 if col < RIGHT_HAND_IDXS.size: # LEFT HAND
                     LEFT_HANDS_MEAN_Y[col] = v.mean()
                     LEFT_HANDS_STD_Y[col] = v.std()
-                else: # RIGHT HAND
-                    RIGHT_HANDS_MEAN_Y[col - LEFT_HAND_IDXS.size] = v.mean()
-                    RIGHT_HANDS_STD_Y[col - LEFT_HAND_IDXS.size] = v.std()
             
     LEFT_HANDS_MEAN = np.array([LEFT_HANDS_MEAN_X, LEFT_HANDS_MEAN_Y]).T
     LEFT_HANDS_STD = np.array([LEFT_HANDS_STD_X, LEFT_HANDS_STD_Y]).T
-    RIGHT_HANDS_MEAN = np.array([RIGHT_HANDS_MEAN_X, RIGHT_HANDS_MEAN_Y]).T
-    RIGHT_HANDS_STD = np.array([RIGHT_HANDS_STD_X, RIGHT_HANDS_STD_Y]).T
 
     # POSE
     POSE_MEAN_X = np.zeros([POSE_IDXS.size], dtype=np.float32)
@@ -231,7 +223,6 @@ def create_feature_statistics_input64(X):
     
     statistics = {"lips": (LIPS_START, LIPS_MEAN, LIPS_STD),
                   "left_hand": (LEFT_HAND_START, LEFT_HANDS_MEAN, LEFT_HANDS_STD),
-                  "right_hand": (RIGHT_HAND_START, RIGHT_HANDS_MEAN, RIGHT_HANDS_STD),
                   "pose": (POSE_START, POSE_MEAN, POSE_STD)}
     
     return statistics
