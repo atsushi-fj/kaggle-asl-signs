@@ -3,7 +3,7 @@ import tensorflow_addons as tfa
 from ..transformer import CustomEmbedding
 from ..transformer import Transformer
 from ...utils import load_data, load_input64_data
-from ...feature import create_feature_statistics
+from ...feature import create_feature_statistics_input64
 
 
 def get_lr_metric(optimizer):
@@ -14,7 +14,7 @@ def get_lr_metric(optimizer):
 
 def get_transformer(cfg):
     X, y, NON_EMPTY_FRAME_IDXS = load_input64_data()
-    feature_stats = create_feature_statistics(X)
+    feature_stats = create_feature_statistics_input64(X)
     # Inputs
     frames = tf.keras.layers.Input([cfg.INPUT_SIZE, cfg.N_COLS, cfg.N_DIMS],
                                    dtype=tf.float32,
@@ -23,8 +23,20 @@ def get_transformer(cfg):
                                                  dtype=tf.float32,
                                                  name='non_empty_frame_idxs')
     # Padding Mask
-    mask = tf.cast(tf.math.not_equal(non_empty_frame_idxs, -1), tf.float32)
-    mask = tf.expand_dims(mask, axis=2)
+    mask0 = tf.cast(tf.math.not_equal(non_empty_frame_idxs, -1), tf.float32)
+    mask0 = tf.expand_dims(mask, axis=2)
+    # Random Frame Masking
+    mask = tf.where(
+        (tf.random.uniform(tf.shape(mask0)) > 0.25) & tf.math.not_equal(mask0, 0.0),
+        1.0,
+        0.0,
+    )
+    # Correct Samples Which are all masked now...
+    mask = tf.where(
+        tf.math.equal(tf.reduce_sum(mask, axis=[1,2], keepdims=True), 0.0),
+        mask0,
+        mask,
+    )
     
     x = frames
     x = tf.slice(x, [0,0,0,0], [-1,cfg.INPUT_SIZE, cfg.N_COLS, 2])

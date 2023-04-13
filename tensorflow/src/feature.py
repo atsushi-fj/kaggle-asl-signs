@@ -109,7 +109,7 @@ def create_feature_statistics(X):
     return statistics
 
 
-def create_gru_features(X):
+def create_gru_feature(X):
     LIPS_IDXS0 = np.array([
             61, 185, 40, 39, 37, 0, 267, 269, 270, 409,
             291, 146, 91, 181, 84, 17, 314, 405, 321, 375,
@@ -124,7 +124,7 @@ def create_gru_features(X):
     return X
 
 
-def create_feature_statistics(X):
+def create_feature_statistics_input64(X):
     
     # landmark indices in original data
     LIPS_IDXS0 = np.array([
