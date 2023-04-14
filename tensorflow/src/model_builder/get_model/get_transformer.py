@@ -98,8 +98,8 @@ def get_transformer(cfg):
     # Create Tensorflow Model
     model = tf.keras.models.Model(inputs=[frames, non_empty_frame_idxs], outputs=outputs)
     
-    # Sparse Categorical Cross Entropy With Label Smoothing
-    loss = scce_with_ls
+    # Simple Categorical Crossentropy Loss
+    loss = tf.keras.losses.SparseCategoricalCrossentropy()
     
     # Adam Optimizer with weight decay
     optimizer = tfa.optimizers.AdamW(learning_rate=cfg.lr,
@@ -108,13 +108,8 @@ def get_transformer(cfg):
     
     lr_metric = get_lr_metric(optimizer)
     
-    # TopK Metrics
-    metrics = [
-        tf.keras.metrics.SparseCategoricalAccuracy(name='acc'),
-        tf.keras.metrics.SparseTopKCategoricalAccuracy(k=5, name='top_5_acc'),
-        tf.keras.metrics.SparseTopKCategoricalAccuracy(k=10, name='top_10_acc'),
-        lr_metric
-    ]
+    metrics = ["acc",lr_metric]
+    
     model.compile(loss=loss, optimizer=optimizer, metrics=metrics)
     return X, y, NON_EMPTY_FRAME_IDXS, model
 
