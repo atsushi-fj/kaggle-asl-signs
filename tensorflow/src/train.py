@@ -18,6 +18,7 @@ def run_transformer(config):
         NON_EMPTY_FRAME_IDXS_VAL = NON_EMPTY_FRAME_IDXS[val_idxs]
         y_train = y[train_idxs]
         y_val = y[val_idxs]
+        print(X_train)
         
     name = create_display_name(experiment_name=cfg.EXPERIMENT_NAME,
                                model_name=cfg.MODEL_NAME)
@@ -34,7 +35,6 @@ def run_transformer(config):
     lr_callback = tf.keras.callbacks.LearningRateScheduler(lambda step: LR_SCHEDULE[step], verbose=1)
     
     if cfg.CREATE_KFOLD:
-        print(f'# NaN Values X_train: {tf.reduce_sum(tf.math.is_nan(X_train))}')
         callbacks=[
             lr_callback,
             WeightDecayCallback(model=model, cfg=cfg),
