@@ -4,6 +4,7 @@ from .utils import WeightDecayCallback, load_config, lrfn, \
 from .model_builder import get_gru, get_transformer
 from .train_generator import get_train_batch_all_signs, get_gru_dataset_kfold, get_gru_dataset_not_kfold
 import wandb
+import numpy as NotImplementedError
 
 
 def run_transformer(config):
@@ -18,7 +19,7 @@ def run_transformer(config):
         NON_EMPTY_FRAME_IDXS_VAL = NON_EMPTY_FRAME_IDXS[val_idxs]
         y_train = y[train_idxs]
         y_val = y[val_idxs]
-        print(X_train)
+        print(f'# NaN Values In Prediction: {np.isnan(X_train).sum()}')
         
     name = create_display_name(experiment_name=cfg.EXPERIMENT_NAME,
                                model_name=cfg.MODEL_NAME)
