@@ -4,7 +4,7 @@ from .utils import WeightDecayCallback, load_config, lrfn, \
 from .model_builder import get_gru, get_transformer
 from .train_generator import get_train_batch_all_signs, get_gru_dataset_kfold, get_gru_dataset_not_kfold
 import wandb
-import numpy as NotImplementedError
+import numpy as np
 
 
 def run_transformer(config):
