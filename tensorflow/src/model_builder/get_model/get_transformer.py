@@ -69,7 +69,7 @@ def get_transformer(cfg):
     left_hand = tf.reshape(left_hand, [-1, cfg.INPUT_SIZE, 21*2])
     
     # POSE
-    pose = tf.slice(x, [0,0,82,0], [-1,cfg.INPUT_SIZE, 10, 2])
+    pose = tf.slice(x, [0,0,61,0], [-1,cfg.INPUT_SIZE, 5, 2])
     pose = tf.where(
             tf.math.equal(pose, 0.0),
             0.0,
