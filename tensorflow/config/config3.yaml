@@ -1,5 +1,3 @@
-PREPROCESS_DATA: False
-TRAIN_MODEL: False
 N_ROWS: 543
 N_COLS: 66
 N_DIMS: 3
@@ -26,7 +24,7 @@ LIPS_UNITS: 384
 HANDS_UNITS: 384
 POSE_UNITS: 384
 # final embedding and transformer embedding size
-UNITS: 384
+UNITS: 512
 
 # Transformer
 NUM_BLOCKS: 2

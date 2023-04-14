@@ -75,7 +75,7 @@ def get_transformer(cfg):
             0.0,
             (pose - feature_stats["pose"][1]) / feature_stats["pose"][2],
         )
-    pose = tf.reshape(pose, [-1, cfg.INPUT_SIZE, 10*2])
+    pose = tf.reshape(pose, [-1, cfg.INPUT_SIZE, 5*2])
     
 
     x = CustomEmbedding(cfg)(lips, left_hand, pose, non_empty_frame_idxs)
@@ -117,3 +117,4 @@ def get_transformer(cfg):
     ]
     model.compile(loss=loss, optimizer=optimizer, metrics=metrics)
     return X, y, NON_EMPTY_FRAME_IDXS, model
+
