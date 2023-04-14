@@ -17,7 +17,7 @@ class MultiHeadAttention(tf.keras.layers.Layer):
         self.wo = tf.keras.layers.Dense(d_model)
         self.softmax = tf.keras.layers.Softmax()
         
-    def call(self,x, attention_mask):
+    def call(self, x, attention_mask):
         
         multi_attn = []
         for i in range(self.num_of_heads):

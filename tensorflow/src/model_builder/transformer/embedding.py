@@ -79,17 +79,15 @@ class CustomEmbedding(tf.keras.Model):
         ], name='fc')
 
 
-    def call(self, lips0, left_hand0, right_hand0, pose0, non_empty_frame_idxs, training=False):
+    def call(self, lips0, left_hand0, pose0, non_empty_frame_idxs, training=False):
         # Lips
         lips_embedding = self.lips_embedding(lips0)
         # Left Hand
         left_hand_embedding = self.left_hand_embedding(left_hand0)
-        # Right Hand
-        right_hand_embedding = self.right_hand_embedding(right_hand0)
         # Pose
         pose_embedding = self.pose_embedding(pose0)
         # Merge Embeddings of all landmarks with mean pooling
-        x = tf.stack((lips_embedding, left_hand_embedding, right_hand_embedding, pose_embedding), axis=3)
+        x = tf.stack((lips_embedding, left_hand_embedding, pose_embedding), axis=3)
         # Merge Landmarks with trainable attention weights
         x = x * tf.nn.softmax(self.landmark_weights)
         x = tf.reduce_sum(x, axis=3)
