@@ -62,10 +62,9 @@ class CustomEmbedding(tf.keras.Model):
         # Embedding layer for Landmarks
         self.lips_embedding = LandmarkEmbedding(self.cfg.LIPS_UNITS, 'lips')
         self.left_hand_embedding = LandmarkEmbedding(self.cfg.HANDS_UNITS, 'left_hand')
-        self.right_hand_embedding = LandmarkEmbedding(self.cfg.HANDS_UNITS, 'right_hand')
         self.pose_embedding = LandmarkEmbedding(self.cfg.POSE_UNITS, 'pose')
         # Landmark Weights
-        self.landmark_weights = tf.Variable(tf.zeros([4], dtype=tf.float32), name='landmark_weights')
+        self.landmark_weights = tf.Variable(tf.zeros([3], dtype=tf.float32), name='landmark_weights')
         # Fully Connected Layers for combined landmarks
         self.fc = tf.keras.Sequential([
             tf.keras.layers.Dense(self.cfg.UNITS, name='fully_connected_1',
