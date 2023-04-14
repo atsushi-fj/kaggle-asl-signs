@@ -86,8 +86,8 @@ def get_transformer(cfg):
     # Pooling
     x = tf.reduce_sum(x * mask, axis=1) / tf.reduce_sum(mask, axis=1)
     
-    # Classifier Dropout
-    x = tf.keras.layers.Dropout(cfg.CLASSIFIER_DROPOUT_RATIO)(x)
+    # # Classifier Dropout
+    # x = tf.keras.layers.Dropout(cfg.CLASSIFIER_DROPOUT_RATIO)(x)
     
     # Classification Layer
     x = tf.keras.layers.Dense(cfg.NUM_CLASSES,
