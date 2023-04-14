@@ -1,5 +1,5 @@
 import tensorflow as tf
-
+import numpy as np
 
 INIT_HE_UNIFORM= tf.keras.initializers.he_uniform
 INIT_GLOROT_UNIFORM = tf.keras.initializers.glorot_uniform
@@ -92,12 +92,18 @@ class CustomEmbedding(tf.keras.Model):
         x = tf.reduce_sum(x, axis=3)
         # Fully Connected Layers
         x = self.fc(x)
+        max_frame_idxs = tf.clip_by_value(
+                tf.reduce_max(non_empty_frame_idxs, axis=1, keepdims=True),
+                1,
+                np.PINF,
+            )
+        
         # Add Positional Embedding
         normalised_non_empty_frame_idxs = tf.where(
             tf.math.equal(non_empty_frame_idxs, -1.0),
             self.cfg.INPUT_SIZE,
             tf.cast(
-                non_empty_frame_idxs / tf.reduce_max(non_empty_frame_idxs, axis=1, keepdims=True) * self.cfg.INPUT_SIZE,
+                non_empty_frame_idxs / max_frame_idxs * self.cfg.INPUT_SIZE,
                 tf.int32,
             ),
         )
