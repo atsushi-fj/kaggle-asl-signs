@@ -24,8 +24,6 @@ def scce_with_ls(y_true, y_pred):
 def get_transformer(cfg):
     X, y, NON_EMPTY_FRAME_IDXS = load_input64_data()
     feature_stats = create_feature_statistics_input64(X)
-    print(X.shape)
-    print(np.isnan(X).sum())
     # Inputs
     frames = tf.keras.layers.Input([cfg.INPUT_SIZE, cfg.N_COLS, cfg.N_DIMS],
                                    dtype=tf.float32,
