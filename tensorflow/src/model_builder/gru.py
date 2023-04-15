@@ -22,13 +22,13 @@ class GRU(tf.keras.Model):
             
         self.mlp = tf.keras.Sequential([
             tf.keras.layers.Dense(cfg.UNITS),
-            tf.keras.layers.BatchNormalization(),
+            # tf.keras.layers.BatchNormalization(),
             tf.keras.layers.ReLU(),
-            tf.keras.layers.Dropout(cfg.DROPRATE, seed=cfg.SEED),
+            tf.keras.layers.Dropout(cfg.MLP_DROPOUT_RATE, seed=cfg.SEED),
             tf.keras.layers.Dense(cfg.UNITS//2),
-            tf.keras.layers.BatchNormalization(),
+            # tf.keras.layers.BatchNormalization(),
             tf.keras.layers.ReLU(),
-            tf.keras.layers.Dropout(cfg.DROPRATE, seed=cfg.SEED),
+            tf.keras.layers.Dropout(cfg.MLP_DROPOUT_RATE, seed=cfg.SEED),
             tf.keras.layers.Dense(cfg.NUM_CLASSES, activation="softmax")
         ])
 
