@@ -4,29 +4,29 @@ import tensorflow as tf
 class GRU(tf.keras.Model):
     def __init__(self, cfg):
         super().__init__()
-        self.start_gru = tf.keras.layers.GRU(cfg.UNITS,
+        self.start_gru = tf.keras.layers.Bidirectional(tf.keras.layers.GRU(cfg.UNITS,
                                             dropout=0.0,
-                                            return_sequences=True)
+                                            return_sequences=True))
         
-        self.end_gru = tf.keras.layers.GRU(cfg.UNITS,
+        self.end_gru = tf.keras.layers.Bidirectional(tf.keras.layers.GRU(cfg.UNITS,
                                            dropout=cfg.DROPRATE,
-                                           return_sequences=False)
+                                           return_sequences=False))
         if (cfg.NUM_BLOCKS - 2) > 0:
             self.gru_blocks = [
-                tf.keras.layers.GRU(cfg.UNITS,
+                tf.keras.layers.Bidirectional(tf.keras.layers.GRU(cfg.UNITS,
                                     dropout=cfg.DROPRATE,
-                                    return_sequences=True)] * (cfg.NUM_BLOCKS - 2)
+                                    return_sequences=True))] * (cfg.NUM_BLOCKS - 2)
             self.flag_use_gru_block = True
         else:
             self.flag_use_gru_block = False
             
         self.mlp = tf.keras.Sequential([
             tf.keras.layers.Dense(cfg.UNITS),
-            # tf.keras.layers.BatchNormalization(),
+            tf.keras.layers.BatchNormalization(),
             tf.keras.layers.ReLU(),
             tf.keras.layers.Dropout(cfg.MLP_DROPOUT_RATE, seed=cfg.SEED),
             tf.keras.layers.Dense(cfg.UNITS//2),
-            # tf.keras.layers.BatchNormalization(),
+            tf.keras.layers.BatchNormalization(),
             tf.keras.layers.ReLU(),
             tf.keras.layers.Dropout(cfg.MLP_DROPOUT_RATE, seed=cfg.SEED),
             tf.keras.layers.Dense(cfg.NUM_CLASSES, activation="softmax")
