@@ -12,6 +12,15 @@ def get_lr_metric(optimizer):
     return lr
 
 
+def scce_with_ls(y_true, y_pred):
+    # One Hot Encode Sparsely Encoded Target Sign
+    y_true = tf.cast(y_true, tf.int32)
+    y_true = tf.one_hot(y_true, 250, axis=1)
+    y_true = tf.squeeze(y_true, axis=2)
+    # Categorical Crossentropy with native label smoothing support
+    return tf.keras.losses.categorical_crossentropy(y_true, y_pred, label_smoothing=0.25)
+
+
 def get_transformer(cfg):
     X, y, NON_EMPTY_FRAME_IDXS = load_input64_data()
     feature_stats = create_feature_statistics_input64(X)
@@ -91,8 +100,8 @@ def get_transformer(cfg):
     # Create Tensorflow Model
     model = tf.keras.models.Model(inputs=[frames, non_empty_frame_idxs], outputs=outputs)
     
-    # Simple Categorical Crossentropy Loss
-    loss = "sparse_categorical_crossentropy"
+    # Sparse Categorical Cross Entropy With Label Smoothing
+    loss = scce_with_ls
     
     # Adam Optimizer with weight decay
     optimizer = tfa.optimizers.AdamW(learning_rate=cfg.lr,

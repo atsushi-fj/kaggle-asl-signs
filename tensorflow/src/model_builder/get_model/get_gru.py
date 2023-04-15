@@ -1,12 +1,11 @@
 import tensorflow as tf
 import tensorflow_addons as tfa
-import numpy as np
-from ...utils import load_data, get_lr_metric
+from ...utils import load_input64_data, get_lr_metric
 from ..gru import GRU
 
 
 def get_gru(cfg):
-    X, y, _ = load_data()
+    X, y, _ = load_input64_data()
     
     inputs = tf.keras.layers.Input(shape=(cfg.INPUT_SIZE, cfg.N_COLS, cfg.N_DIMS),
                                    dtype=tf.float32,

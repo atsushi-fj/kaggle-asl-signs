@@ -1,0 +1,65 @@
+N_ROWS: 543
+N_COLS: 66  # number of landmark 
+N_DIMS: 3
+NUM_FRAMES: 15
+SEGMENTS: 3
+DIM_NAMES: ['x', 'y', 'z']
+SEED: 42
+NUM_CLASSES: 250
+IS_INTERACTIVE: True
+VERBOSE: 2
+INPUT_SIZE: 64
+BATCH_ALL_SIGNS_N: 4
+BATCH_SIZE: 256
+N_EPOCHS: 15
+LR_MAX: 1.e-3
+N_WARMUP_EPOCHS: 0
+WD_RATIO: 0.05
+MASK_VAL: 4237
+
+
+# Epsilon value for layer normalisation
+LAYER_NORM_EPS: 1.e-6
+
+# Dense layer units for landmarks
+LIPS_UNITS: 384
+HANDS_UNITS: 384
+POSE_UNITS: 384
+
+# GRU 
+UNITS: 560
+# Base 5 best  8 3 best
+NUM_BLOCKS: 3
+DROPRATE: 0.3
+
+# Transformer
+# NUM_BLOCKS: 4
+MLP_RATIO: 2
+
+# Dropout
+EMBEDDING_DROPOUT: 0.00
+MLP_DROPOUT_RATIO: 0.30
+CLASSIFIER_DROPOUT_RATIO: 0.10
+
+# Optimizer
+lr: 1.e-4
+weight_decay: 1.e-5
+clipnorm: 1.0
+
+# Kfold
+CREATE_KFOLD: False
+k: 7
+
+# Earlystopping
+PATIENCE: 30
+
+# Path
+TRAIN_CSV_PATH: "input/train.csv"
+MODEL_PATH: "models/gru_baseline.h5"
+MODEL_WEIGHTS_PATH: "models/gru_weights_baseline"
+
+# Wandb
+PROJECT: "kaggle-asl-signs"
+EXPERIMENT_NAME: "85%_gru_baseline_4layers"
+MODEL_NAME: "gru"
+
