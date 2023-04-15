@@ -9,7 +9,7 @@ VERBOSE: 2
 INPUT_SIZE: 64
 BATCH_ALL_SIGNS_N: 4
 BATCH_SIZE: 256
-N_EPOCHS: 100
+N_EPOCHS: 73
 LR_MAX: 1.e-3
 N_WARMUP_EPOCHS: 0
 WD_RATIO: 0.05
@@ -41,7 +41,7 @@ weight_decay: 1.e-5
 clipnorm: 1.0
 
 # Kfold
-CREATE_KFOLD: True
+CREATE_KFOLD: False
 k: 7
 
 # Earlystopping
@@ -49,13 +49,10 @@ PATIENCE: 30
 
 # Path
 TRAIN_CSV_PATH: "input/train.csv"
-MODEL_PATH: "models/transformer_2layers.h5"
-MODEL_WEIGHTS_PATH: "models/transformer_weights_2layers"
-ARTIFACT: "transformer_model"
-ARTIFACT_DATA: "models/transformer_weights_2layers.data-00000-of-00001"
-ARTIFACT_INDEX: "models/transformer_weights_2layers.index"
+MODEL_PATH: "models/new_transformer_2layers.h5"
+MODEL_WEIGHTS_PATH: "models/new_transformer_weights_2layers"
 
 # Wandb
 PROJECT: "kaggle-asl-signs"
-EXPERIMENT_NAME: "100%_transformer_2layers_2ratio"
+EXPERIMENT_NAME: "100%_new_transformer_2layers_2ratio"
 MODEL_NAME: "transformer"
