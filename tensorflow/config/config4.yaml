@@ -56,11 +56,11 @@ PATIENCE: 30
 
 # Path
 TRAIN_CSV_PATH: "input/train.csv"
-MODEL_PATH: "models/gru_baseline.h5"
-MODEL_WEIGHTS_PATH: "models/gru_weights_baseline"
+MODEL_PATH: "models/new_gru_3layers.h5"
+MODEL_WEIGHTS_PATH: "models/new_gru_3layers"
 
 # Wandb
 PROJECT: "kaggle-asl-signs"
-EXPERIMENT_NAME: "85%_gru_baseline_4layers"
+EXPERIMENT_NAME: "100%_gru_baseline_3layers"
 MODEL_NAME: "gru"
 
