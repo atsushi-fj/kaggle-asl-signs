@@ -43,17 +43,18 @@ class GRU(tf.keras.Model):
 
 
 def gru_block(inputs, cfg):
-    vector = tf.kreas.layers.GRU(cfg.Units,
-                                 dropout=0.0,
+    vector = tf.keras.layers.GRU(cfg.Units,
+                                 dropout=cfg.DROPRATE,
                                  return_sequences=True,)(inputs)
-    vector = tf.kreas.layers.GRU(cfg.Units,
-                                 dropout=0.0,
+    vector = tf.keras.layers.GRU(cfg.Units,
+                                 dropout=cfg.DROPRATE,
                                  return_sequences=False,)(vector)
     vector = tf.keras.layers.Dropout(0.3)(vector)
     return vector
 
+
 def mlp_block(inputs, cfg):
-    x = tf.keras.layers.Dense(cfg.UNITS)(inputs)
+    x = tf.keras.layers.Dense(cfg.MLP_UNITS)(inputs)
     x = tf.keras.layers.BatchNormalization()(x)
     x = tf.keras.layers.ReLU()(x)
     x = tf.keras.layers.Dropout(cfg.MLP_DROPOUT_RATE, seed=cfg.SEED)(x)
