@@ -48,7 +48,7 @@ def get_transformer(cfg):
     )
     
     x = frames
-    x = tf.slice(x, [0,0,0,0], [-1,cfg.INPUT_SIZE, cfg.N_COLS, 2])
+    x = tf.slice(x, [0,0,0,0], [-1, cfg.INPUT_SIZE, cfg.N_COLS, 2])
     
     # LIPS
     lips = tf.slice(x, [0,0,feature_stats["lips"][0],0], [-1,cfg.INPUT_SIZE, 40, 2])

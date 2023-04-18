@@ -1,7 +1,7 @@
 import tensorflow as tf
 from .utils import WeightDecayCallback, load_config, lrfn, \
                    create_kfold, create_display_name
-from .model_builder import get_gru, get_transformer
+from .model_builder import get_gru, get_transformer, get_feature_gru
 from .train_generator import get_train_batch_all_signs, get_gru_dataset_kfold, get_gru_dataset_not_kfold
 import wandb
 import numpy as np
@@ -79,7 +79,7 @@ def run_transformer(config):
 
 def run_gru(config):
     cfg = load_config(config)
-    X, y, model = get_gru(cfg)
+    X, y, model = get_feature_gru(cfg)
     
     # create dataset
     if cfg.CREATE_KFOLD:
