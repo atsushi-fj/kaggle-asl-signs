@@ -137,9 +137,7 @@ def get_new_feature_gru(cfg):
     
     x = tf.keras.layers.Concatenate(axis=2)([lips, left_hand, pose])
     
-    x = GRU(cfg)(x)
-    
-    outputs = mlp_block(x, cfg)
+    outputs = GRU(cfg)(x)
     
     model = tf.keras.models.Model(inputs=inputs, outputs=outputs)
     loss = scce_with_ls
