@@ -43,10 +43,10 @@ class GRU(tf.keras.Model):
 
 
 def gru_block(inputs, cfg):
-    vector = tf.keras.layers.GRU(cfg.Units,
+    vector = tf.keras.layers.GRU(cfg.UNITS,
                                  dropout=cfg.DROPRATE,
                                  return_sequences=True,)(inputs)
-    vector = tf.keras.layers.GRU(cfg.Units,
+    vector = tf.keras.layers.GRU(cfg.UNITS,
                                  dropout=cfg.DROPRATE,
                                  return_sequences=False,)(vector)
     vector = tf.keras.layers.Dropout(0.3)(vector)
