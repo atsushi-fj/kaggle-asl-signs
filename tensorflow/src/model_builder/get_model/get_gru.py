@@ -137,7 +137,7 @@ def get_new_feature_gru(cfg):
     
     x = tf.keras.layers.Concatenate(axis=2)([lips, left_hand, pose])
     
-    x = GRU(x)
+    x = GRU(cfg)(x)
     
     outputs = mlp_block(x, cfg)
     
