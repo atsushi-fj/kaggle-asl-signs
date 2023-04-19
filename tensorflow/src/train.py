@@ -79,7 +79,7 @@ def run_transformer(config):
 
 def run_gru(config):
     cfg = load_config(config)
-    X, y, model = get_gru(cfg)
+    X, y, model = get_feature_gru(cfg)
     
     # create dataset
     if cfg.CREATE_KFOLD:
