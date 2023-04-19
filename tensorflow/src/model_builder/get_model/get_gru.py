@@ -135,7 +135,7 @@ def get_new_feature_gru(cfg):
         )
     pose = tf.reshape(pose, [-1, cfg.INPUT_SIZE, 5*2])
     
-    x = tf.keras.layers.Concatenate(axis=1)([lips, left_hand, pose])
+    x = tf.keras.layers.Concatenate(axis=0)([lips, left_hand, pose])
     
     x = GRU(x)
     
