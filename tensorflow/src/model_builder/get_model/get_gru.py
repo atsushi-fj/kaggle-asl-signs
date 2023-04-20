@@ -163,7 +163,7 @@ def get_residual_gru(cfg):
     
     x = tf.reshape(inputs, [-1, cfg.INPUT_SIZE, cfg.N_COLS * cfg.N_DIMS])
     
-    gru_out = GRUOnly(cfg)(inputs)
+    gru_out = GRUOnly(cfg)(x)
     x = gru_out
     
     # Residual Block
