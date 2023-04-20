@@ -2,7 +2,7 @@ import tensorflow as tf
 import tensorflow_addons as tfa
 from ...utils import load_input64_data, get_lr_metric
 from ...feature import create_feature_statistics_input64
-from ..gru import GRU, gru_block, mlp_block
+from ..gru import GRU, gru_block, mlp_block, ResidualBlock, MSD, GRUOnly
 
 
 def scce_with_ls(y_true, y_pred):
@@ -152,3 +152,44 @@ def get_new_feature_gru(cfg):
     metrics = ["acc",lr_metric]
     model.compile(loss=loss, optimizer=optimizer, metrics=metrics)
     return X, y, model
+
+
+def get_residual_gru(cfg):
+    X, y, _ = load_input64_data()
+    
+    inputs = tf.keras.layers.Input(shape=(cfg.INPUT_SIZE, cfg.N_COLS, cfg.N_DIMS),
+                                   dtype=tf.float32,
+                                   name="inputs")
+    
+    x = tf.reshape(inputs, [-1, cfg.INPUT_SIZE, cfg.N_COLS * cfg.N_DIMS])
+    
+    gru_out = GRUOnly(cfg)(inputs)
+    x = gru_out
+    
+    # Residual Block
+    x = ResidualBlock(cfg)(x)
+    x += ResidualBlock(cfg)(x)
+    
+    # Final output MSD Layer
+    x = MSD(cfg)(x)
+    
+    outputs = tf.keras.layers.Softmax(dtype="float32")(x)
+    
+    model = tf.keras.models.Model(inputs=inputs, outputs=outputs)
+    loss = scce_with_ls
+    
+    # Adam Optimizer with weight decay
+    optimizer = tfa.optimizers.AdamW(learning_rate=cfg.lr,
+                                     weight_decay=cfg.weight_decay,
+                                     clipnorm=cfg.clipnorm)
+    
+    lr_metric = get_lr_metric(optimizer)
+    
+    metrics = ["acc",lr_metric]
+    model.compile(loss=loss, optimizer=optimizer, metrics=metrics)
+    return X, y, model
+    
+    
+    
+    
+    
