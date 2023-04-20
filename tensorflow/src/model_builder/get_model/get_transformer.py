@@ -101,10 +101,12 @@ def get_transformer(cfg):
     # Sparse Categorical Cross Entropy With Label Smoothing
     loss = scce_with_ls
     
-    # Adam Optimizer with weight decay
-    optimizer = tfa.optimizers.AdamW(learning_rate=cfg.lr,
-                                     weight_decay=cfg.weight_decay,
-                                     clipnorm=cfg.clipnorm)
+    # # Adam Optimizer with weight decay
+    # optimizer = tfa.optimizers.AdamW(learning_rate=cfg.lr,
+    #                                  weight_decay=cfg.weight_decay,
+    #                                  clipnorm=cfg.clipnorm)
+    
+    optimizer = tfa.optimizers.SGDW(learning_rate=0.05, momentum=0.7, weight_decay=0.005)
     
     lr_metric = get_lr_metric(optimizer)
     

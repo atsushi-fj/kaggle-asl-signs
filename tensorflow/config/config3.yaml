@@ -9,7 +9,7 @@ VERBOSE: 2
 INPUT_SIZE: 64
 BATCH_ALL_SIGNS_N: 4
 BATCH_SIZE: 256
-N_EPOCHS: 64
+N_EPOCHS: 100
 LR_MAX: 1.e-3
 N_WARMUP_EPOCHS: 0
 WD_RATIO: 0.05
@@ -24,7 +24,7 @@ LIPS_UNITS: 384
 HANDS_UNITS: 384
 POSE_UNITS: 384
 # final embedding and transformer embedding size
-UNITS: 384
+UNITS: 512
 # used 512
 
 # Transformer
@@ -42,7 +42,7 @@ weight_decay: 1.e-5
 clipnorm: 1.0
 
 # Kfold
-CREATE_KFOLD: False
+CREATE_KFOLD: True
 k: 7
 
 # Earlystopping
