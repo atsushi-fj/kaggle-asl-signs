@@ -73,13 +73,13 @@ class GRUOnly(tf.keras.Model):
 
 
 class ResidualBlock(tf.keras.layers.Layer):
-    def __init__(self, droprate, cfg):
+    def __init__(self, cfg):
         super().__init__()
         self.linear = tf.keras.layers.Dense(cfg.RESIDUAL_UNITS)
         self.bn = tf.keras.layers.BatchNormalization()
         self.act = tf.keras.layers.Activation("gelu")
-        if droprate != 0:
-            self.drop = tf.keras.layers.Dropout(droprate)
+        if cfg.RESIDUAL_DROPRATE != 0:
+            self.drop = tf.keras.layers.Dropout(cfg.RESIDUAL_DROPRATE)
             self.flag_use_drop = True
         else:
             self.flag_use_drop = False
