@@ -169,8 +169,8 @@ def get_residual_gru(cfg):
     x = gru_out
     
     # Residual Block
-    x = ResidualBlock(0.25, cfg)(x)
-    x += ResidualBlock(0.0, cfg)(x)
+    x = ResidualBlock(cfg)(x)
+    x += ResidualBlock(cfg)(x)
     
     # Final output MSD Layer
     x = MSD(cfg)(x)
