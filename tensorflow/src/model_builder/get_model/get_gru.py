@@ -181,9 +181,11 @@ def get_residual_gru(cfg):
     loss = scce_with_ls
     
     # Adam Optimizer with weight decay
-    optimizer = tfa.optimizers.AdamW(learning_rate=cfg.lr,
-                                     weight_decay=cfg.weight_decay,
-                                     clipnorm=cfg.clipnorm)
+    # optimizer = tfa.optimizers.AdamW(learning_rate=cfg.lr,
+    #                                  weight_decay=cfg.weight_decay,
+    #                                  clipnorm=cfg.clipnorm)
+    
+    optimizer = tfa.optimizers.SGDW(learning_rate=0.005, momentum=0.7, weight_decay=0.005)
     
     lr_metric = get_lr_metric(optimizer)
     
