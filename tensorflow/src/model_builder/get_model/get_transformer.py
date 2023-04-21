@@ -106,7 +106,8 @@ def get_transformer(cfg):
     #                                  weight_decay=cfg.weight_decay,
     #                                  clipnorm=cfg.clipnorm)
     
-    optimizer = tfa.optimizers.SGDW(learning_rate=0.05, momentum=0.7, weight_decay=0.005)
+    # original lr: 0.05
+    optimizer = tfa.optimizers.SGDW(learning_rate=0.5, momentum=0.7, weight_decay=0.005)
     
     lr_metric = get_lr_metric(optimizer)
     

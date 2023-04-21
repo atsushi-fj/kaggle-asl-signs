@@ -185,7 +185,7 @@ def get_residual_gru(cfg):
     #                                  weight_decay=cfg.weight_decay,
     #                                  clipnorm=cfg.clipnorm)
     
-    optimizer = tfa.optimizers.SGDW(learning_rate=0.005, momentum=0.7, weight_decay=0.005)
+    optimizer = tfa.optimizers.SGDW(learning_rate=0.05, momentum=0.7, weight_decay=0.005)
     
     lr_metric = get_lr_metric(optimizer)
     
