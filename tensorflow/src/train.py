@@ -81,7 +81,7 @@ def run_transformer(config):
 def run_gru(config):
     cfg = load_config(config)
     X, y, model = get_residual_gru(cfg)
-    smote = SMOTE("minority")
+    smote = SMOTE(sampling_strategy="minority")
     
     # create dataset
     if cfg.CREATE_KFOLD:
