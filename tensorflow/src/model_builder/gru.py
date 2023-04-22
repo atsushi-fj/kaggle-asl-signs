@@ -83,6 +83,17 @@ class ResidualBlock(tf.keras.layers.Layer):
             self.flag_use_drop = True
         else:
             self.flag_use_drop = False
+            
+    def get_config(self):
+        config = {
+            "linear" : self.linear,
+            "bn" : self.bn,
+            "act" : self.act,
+            "drop" : self.drop,
+            "flag_use_drop" : self.flag_use_drop
+        }
+        base_config = super().get_config()
+        return dict(list(base_config.items()) + list(config.items()))
 
     def call(self, x):
         x = self.linear(x)
