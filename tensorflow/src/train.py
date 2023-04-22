@@ -5,6 +5,7 @@ from .model_builder import get_gru, get_transformer, get_feature_gru, get_new_fe
 from .train_generator import get_train_batch_all_signs, get_gru_dataset_kfold, get_gru_dataset_not_kfold
 import wandb
 import numpy as np
+from imblearn.over_sampling import SMOTE
 
 
 def run_transformer(config):
@@ -80,6 +81,7 @@ def run_transformer(config):
 def run_gru(config):
     cfg = load_config(config)
     X, y, model = get_residual_gru(cfg)
+    smote = SMOTE("minority")
     
     # create dataset
     if cfg.CREATE_KFOLD:
@@ -88,12 +90,14 @@ def run_gru(config):
         X_val = X[val_idxs]
         y_train = y[train_idxs]
         y_val = y[val_idxs]
+        X_train, y_train = smote.fit_sample(X_train, y_train)
         train_dataset, val_dataset = get_gru_dataset_kfold(batch_size=cfg.BATCH_SIZE,
                                                            X_train=X_train,
                                                            y_train=y_train,
                                                            X_val=X_val,
                                                            y_val=y_val)
     else:
+        X, y = smote.fit_sample(X, y)
         train_dataset = get_gru_dataset_not_kfold(batch_size=cfg.BATCH_SIZE,
                                                   X_train=X,
                                                   y_train=y)

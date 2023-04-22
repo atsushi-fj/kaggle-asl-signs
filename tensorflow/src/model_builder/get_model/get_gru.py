@@ -4,7 +4,6 @@ from ...utils import load_input64_data, get_lr_metric
 from ...feature import create_feature_statistics_input64
 from ..gru import GRU, gru_block, mlp_block, ResidualBlock, MSD, GRUOnly
 
-
 def scce_with_ls(y_true, y_pred):
     # One Hot Encode Sparsely Encoded Target Sign
     y_true = tf.cast(y_true, tf.int32)
