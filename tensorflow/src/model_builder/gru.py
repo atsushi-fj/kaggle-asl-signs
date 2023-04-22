@@ -66,7 +66,6 @@ class GRUOnly(tf.keras.Model):
         config = {
             "start_gru" : self.start_gru,
             "end_gru" : self.end_gru,
-            "gru_blocks" : self.gru_blocks,
             "flag_use_gru_block" : self.flag_use_gru_block
         }
         base_config = super().get_config()
