@@ -61,6 +61,17 @@ class GRUOnly(tf.keras.Model):
             self.flag_use_gru_block = True
         else:
             self.flag_use_gru_block = False
+            
+    def get_config(self):
+        config = {
+            "start_gru" : self.start_gru,
+            "end_gru" : self.end_gru,
+            "gru_blocks" : self.gru_blocks,
+            "flag_use_gru_block" : self.flag_use_gru_block
+        }
+        base_config = super().get_config()
+        return dict(list(base_config.items()) + list(config.items()))
+
 
     def call(self, x):
         x = self.start_gru(x)
@@ -129,6 +140,14 @@ class MSD(tf.keras.layers.Layer):
             tf.keras.layers.Dropout((rate_dropout + 0.1), seed=348 + fold_num),
             tf.keras.layers.Dropout((rate_dropout + 0.2), seed=861 + fold_num),
         ]
+    
+    def get_config(self):
+        config = {
+            "lin" : self.lin,
+            "dropouts" : self.dropouts,
+        }
+        base_config = super().get_config()
+        return dict(list(base_config.items()) + list(config.items()))
         
     def call(self, inputs):
         for ii, drop in enumerate(self.dropouts):
