@@ -29,7 +29,7 @@ def get_fc(cfg):
         tf.keras.layers.Dropout(cfg.DROPRATE, seed=cfg.SEED),
         tf.keras.layers.Dense(cfg.NUM_CLASSES, activation="softmax")
     ])
-    outputs = fc_layer()(inputs)
+    outputs = fc_layer(inputs)
     model = tf.keras.models.Model(inputs=inputs, outputs=outputs)
     loss = scce_with_ls
     
