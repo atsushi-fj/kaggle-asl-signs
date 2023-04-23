@@ -57,7 +57,7 @@ CREATE_KFOLD: True
 k: 7
 
 # Earlystopping
-PATIENCE: 30
+PATIENCE: 300
 
 # Path
 TRAIN_CSV_PATH: "input/train.csv"
