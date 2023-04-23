@@ -1,6 +1,7 @@
 import tensorflow as tf
 import tensorflow_addons as tfa
 from ...utils import load_ln_data, get_lr_metric
+from ..fc import FC
 
 
 def scce_with_ls(y_true, y_pred):
@@ -20,22 +21,8 @@ def get_fc(cfg):
                                    name="inputs")
     x = tf.reshape(inputs, [-1, cfg.N_COLS*cfg.N_DIMS])
     
-    fc_layer = tf.keras.Sequential([
-        tf.keras.layers.Dense(cfg.UNITS),
-        tf.keras.layers.BatchNormalization(),
-        tf.keras.layers.ReLU(),
-        tf.keras.layers.Dropout(cfg.DROPRATE, seed=cfg.SEED),
-        tf.keras.layers.Dense(cfg.UNITS),
-        tf.keras.layers.BatchNormalization(),
-        tf.keras.layers.ReLU(),
-        tf.keras.layers.Dropout(cfg.DROPRATE, seed=cfg.SEED),
-        tf.keras.layers.Dense(cfg.UNITS),
-        tf.keras.layers.BatchNormalization(),
-        tf.keras.layers.ReLU(),
-        tf.keras.layers.Dropout(cfg.DROPRATE, seed=cfg.SEED),
-        tf.keras.layers.Dense(cfg.NUM_CLASSES, activation="softmax")
-    ])
-    outputs = fc_layer(x)
+    outputs = FC(cfg)(x)
+    
     model = tf.keras.models.Model(inputs=inputs, outputs=outputs)
     loss = scce_with_ls
     
