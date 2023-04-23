@@ -107,7 +107,7 @@ def get_transformer(cfg):
     #                                  clipnorm=cfg.clipnorm)
     
     # original lr: 0.05
-    optimizer = tfa.optimizers.SGDW(learning_rate=0.5, momentum=0.7, weight_decay=0.005)
+    optimizer = tfa.optimizers.AdamW(learning_rate=1e-3, weight_decay=1e-5, clipnorm=1.0)
     
     lr_metric = get_lr_metric(optimizer)
     
