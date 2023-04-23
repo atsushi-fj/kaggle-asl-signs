@@ -26,7 +26,7 @@ class FC(tf.keras.Model):
         return dict(list(base_config.items()) + list(config.items()))
 
     def call(self, x):
-        x_tmp = x
+        x_tmp = 0
         x = self.start_fc(x)
         if self.flag_use_fc_block:
             for blk in self.fc_blocks:
