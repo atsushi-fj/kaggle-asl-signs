@@ -2,7 +2,7 @@ import tensorflow as tf
 from .utils import WeightDecayCallback, load_config, lrfn, \
                    create_kfold, create_display_name
 from .model_builder import get_gru, get_transformer, get_feature_gru, get_new_feature_gru, get_residual_gru, get_fc
-from .train_generator import get_train_batch_all_signs, get_gru_dataset_kfold, get_gru_dataset_not_kfold, get_train_batch_all_signs_ln
+from .train_generator import get_train_batch_all_signs, get_gru_dataset_kfold, get_gru_dataset_not_kfold, get_train_batch_all_signs_ln, get_train_batch_all_signs_gru
 import wandb
 import numpy as np
 
@@ -250,11 +250,11 @@ def run_gru2(config):
                                              restore_best_weights=True),
             wandb.keras.WandbCallback()]
         model.fit(
-        x=get_train_batch_all_signs(X_train,
+        x=get_train_batch_all_signs_gru(X_train,
                                     y_train,
                                     cfg),
         steps_per_epoch=len(X_train) // (cfg.NUM_CLASSES * cfg.BATCH_ALL_SIGNS_N),
-        validation_data=get_train_batch_all_signs(X_val,
+        validation_data=get_train_batch_all_signs_gru(X_val,
                                                   y_val,
                                                   cfg),
         validation_steps=len(X_val) // (cfg.NUM_CLASSES * cfg.BATCH_ALL_SIGNS_N),
