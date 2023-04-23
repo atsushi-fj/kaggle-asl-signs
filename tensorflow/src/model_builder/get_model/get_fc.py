@@ -18,6 +18,8 @@ def get_fc(cfg):
     inputs = tf.keras.layers.Input(shape=(cfg.N_COLS, cfg.N_DIMS),
                                    dtype=tf.float32,
                                    name="inputs")
+    x = tf.reshape(inputs, [-1, cfg.N_COLS*cfg.N_DIMS])
+    
     fc_layer = tf.keras.Sequential([
         tf.keras.layers.Dense(cfg.UNITS),
         tf.keras.layers.BatchNormalization(),
@@ -29,7 +31,7 @@ def get_fc(cfg):
         tf.keras.layers.Dropout(cfg.DROPRATE, seed=cfg.SEED),
         tf.keras.layers.Dense(cfg.NUM_CLASSES, activation="softmax")
     ])
-    outputs = fc_layer(inputs)
+    outputs = fc_layer(x)
     model = tf.keras.models.Model(inputs=inputs, outputs=outputs)
     loss = scce_with_ls
     
