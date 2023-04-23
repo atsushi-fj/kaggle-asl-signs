@@ -29,6 +29,10 @@ def get_fc(cfg):
         tf.keras.layers.BatchNormalization(),
         tf.keras.layers.ReLU(),
         tf.keras.layers.Dropout(cfg.DROPRATE, seed=cfg.SEED),
+        tf.keras.layers.Dense(cfg.UNITS),
+        tf.keras.layers.BatchNormalization(),
+        tf.keras.layers.ReLU(),
+        tf.keras.layers.Dropout(cfg.DROPRATE, seed=cfg.SEED),
         tf.keras.layers.Dense(cfg.NUM_CLASSES, activation="softmax")
     ])
     outputs = fc_layer(x)
