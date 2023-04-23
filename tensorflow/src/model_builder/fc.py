@@ -4,14 +4,17 @@ import tensorflow as tf
 class FC(tf.keras.Model):
     def __init__(self, cfg):
         super().__init__()
-        self.start_fc = tf.keras.layers.Dense(cfg.UNITS)
+        self.start_fc = tf.keras.layers.Dense(cfg.UNITS, activation="relu")
         
         self.end_fc = tf.keras.layers.Dense(cfg.NUM_CLASSES,
                                             activation="softmax")
         
         if (cfg.NUM_BLOCKS - 2) > 0:
             self.fc_blocks = [
-                tf.keras.layers.Dense(cfg.UNITS)] * (cfg.NUM_BLOCKS - 2)
+                tf.keras.layers.Dense(cfg.UNITS),
+                tf.keras.layers.BatchNormalization(),
+                tf.keras.layers.ReLU(),
+                tf.keras.layers.Dropout(cfg.MLP_DROPOUT_RATE, seed=cfg.SEED),] * (cfg.NUM_BLOCKS - 2)
             self.flag_use_fc_block = True
         else:
             self.flag_use_fc_block = False
