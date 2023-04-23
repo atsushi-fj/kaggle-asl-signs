@@ -47,7 +47,7 @@ MLP_DROPOUT_RATIO: 0.30
 CLASSIFIER_DROPOUT_RATIO: 0.10
 
 # Optimizer
-lr: 1.e-5
+lr: 1.e-4
 weight_decay: 1.e-5  # original 1.e-5
 clipnorm: 1.0
 
