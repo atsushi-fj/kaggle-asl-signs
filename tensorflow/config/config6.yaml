@@ -29,7 +29,7 @@ POSE_UNITS: 384
 # GRU 
 UNITS: 384
 # Base 5 best  8 3 best
-NUM_BLOCKS: 3
+NUM_BLOCKS: 2
 DROPRATE: 0.50
 MLP_DROPOUT_RATE: 0.10
 MLP_UNITS: 384
@@ -53,7 +53,7 @@ weight_decay: 1.e-5  # original 1.e-5
 clipnorm: 1.0
 
 # Kfold
-CREATE_KFOLD: False
+CREATE_KFOLD: True
 k: 7
 
 # Earlystopping
