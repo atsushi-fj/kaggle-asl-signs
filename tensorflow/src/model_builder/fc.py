@@ -12,7 +12,7 @@ class FC(tf.keras.Model):
                 tf.keras.layers.Dense(cfg.UNITS),
                 tf.keras.layers.BatchNormalization(),
                 tf.keras.layers.ReLU(),
-                tf.keras.layers.Dropout(cfg.DROPOUT_RATE, seed=cfg.SEED)] * (cfg.NUM_BLOCKS - 1)
+                tf.keras.layers.Dropout(cfg.DROPRATE, seed=cfg.SEED)] * (cfg.NUM_BLOCKS - 1)
             self.flag_use_fc_block = True
         else:
             self.flag_use_fc_block = False
