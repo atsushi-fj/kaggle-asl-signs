@@ -213,4 +213,71 @@ def run_fc(config):
      
     model.save(cfg.MODEL_PATH)
     model.save_weights(cfg.MODEL_WEIGHTS_PATH)
+    
+    
+def run_gru2(config):
+    cfg = load_config(config)
+    X, y, model = get_residual_gru(cfg)
+    
+    if cfg.CREATE_KFOLD:
+        train_idxs, val_idxs = create_kfold(cfg)
+        X_train = X[train_idxs]
+        X_val = X[val_idxs]
+        y_train = y[train_idxs]
+        y_val = y[val_idxs]
+        print(f'# NaN Values In Prediction: {np.isnan(X_train).sum()}')
+        
+    name = create_display_name(experiment_name=cfg.EXPERIMENT_NAME,
+                               model_name=cfg.MODEL_NAME)
+    run = wandb.init(project=cfg.PROJECT,
+                     name=name,
+                     config=cfg)
+    # Learning rate for encoder
+    LR_SCHEDULE = [lrfn(step, num_warmup_steps=cfg.N_WARMUP_EPOCHS,
+                        lr_max=cfg.LR_MAX,
+                        cfg=cfg,
+                        num_cycles=0.50) for step in range(cfg.N_EPOCHS)]
+    
+    # Learning Rate Callback
+    lr_callback = tf.keras.callbacks.LearningRateScheduler(lambda step: LR_SCHEDULE[step], verbose=1)
+    
+    if cfg.CREATE_KFOLD:
+        callbacks=[
+            lr_callback,
+            WeightDecayCallback(model=model, cfg=cfg),
+            tf.keras.callbacks.EarlyStopping(monitor="val_loss",
+                                             patience=cfg.PATIENCE,
+                                             restore_best_weights=True),
+            wandb.keras.WandbCallback()]
+        model.fit(
+        x=get_train_batch_all_signs(X_train,
+                                    y_train,
+                                    cfg),
+        steps_per_epoch=len(X_train) // (cfg.NUM_CLASSES * cfg.BATCH_ALL_SIGNS_N),
+        validation_data=get_train_batch_all_signs(X_val,
+                                                  y_val,
+                                                  cfg),
+        validation_steps=len(X_val) // (cfg.NUM_CLASSES * cfg.BATCH_ALL_SIGNS_N),
+        epochs=cfg.N_EPOCHS,
+        batch_size=cfg.BATCH_SIZE,
+        callbacks=callbacks,
+        verbose=2,)
+        
+    else:
+        callbacks=[
+            lr_callback,
+            WeightDecayCallback(model=model, cfg=cfg),
+            wandb.keras.WandbCallback()]
+        
+        model.fit(
+            x=get_train_batch_all_signs(X, y, cfg),
+            steps_per_epoch=len(X) // (cfg.NUM_CLASSES * cfg.BATCH_ALL_SIGNS_N),
+            epochs=cfg.N_EPOCHS,
+            batch_size=cfg.BATCH_SIZE,
+            callbacks=callbacks,
+            verbose=2,)
+     
+    model.save(cfg.MODEL_PATH)
+    model.save_weights(cfg.MODEL_WEIGHTS_PATH)
+
 
