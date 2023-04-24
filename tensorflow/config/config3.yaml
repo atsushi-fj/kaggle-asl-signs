@@ -42,7 +42,7 @@ weight_decay: 1.e-5
 clipnorm: 1.0
 
 # Kfold
-CREATE_KFOLD: False
+CREATE_KFOLD: True
 k: 7
 
 # Earlystopping
