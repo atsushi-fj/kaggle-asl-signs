@@ -60,11 +60,11 @@ PATIENCE: 400
 
 # Path
 TRAIN_CSV_PATH: "input/train.csv"
-MODEL_PATH: "models/fc_2layers.h5"
-MODEL_WEIGHTS_PATH: "models/fc_2layers"
+MODEL_PATH: "models/fc_3layers.h5"
+MODEL_WEIGHTS_PATH: "models/fc_3layers"
 
 # Wandb
 PROJECT: "kaggle-asl-signs"
-EXPERIMENT_NAME: "100%_fc_2layers"
+EXPERIMENT_NAME: "100%_fc_3layers"
 MODEL_NAME: "fc"
 
