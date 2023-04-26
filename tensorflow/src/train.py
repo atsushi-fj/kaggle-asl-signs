@@ -5,6 +5,7 @@ from .model_builder import get_gru, get_transformer, get_feature_gru, get_new_fe
 from .train_generator import get_train_batch_all_signs, get_gru_dataset_kfold, get_gru_dataset_not_kfold, get_train_batch_all_signs_ln, get_train_batch_all_signs_gru
 import wandb
 import numpy as np
+from sklearn.linear_model import LogisticRegression
 
 
 def run_transformer(config):
