@@ -26,7 +26,7 @@ LIPS_UNITS: 384
 HANDS_UNITS: 384
 POSE_UNITS: 384
 
-# GRU 
+# GRU # original 384
 UNITS: 192
 # Base 5 best  8 3 best
 NUM_BLOCKS: 2
@@ -53,7 +53,7 @@ weight_decay: 1.e-5  # original 1.e-5
 clipnorm: 1.0
 
 # Kfold
-CREATE_KFOLD: True
+CREATE_KFOLD: False
 k: 7
 
 # Earlystopping
