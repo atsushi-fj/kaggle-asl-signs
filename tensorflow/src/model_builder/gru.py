@@ -79,7 +79,47 @@ class GRUOnly(tf.keras.Model):
                 x = blk(x)
         x = self.end_gru(x)
         return x
+    
+    
+class BidirectGRUOnly(tf.keras.Model):
+    def __init__(self, cfg):
+        super().__init__()
+        self.start_gru = tf.keras.layers.Bidirectional(
+            tf.keras.layers.GRU(cfg.UNITS,
+                                dropout=0.0,
+                                return_sequences=True))
+        
+        self.end_gru = tf.keras.layers.Bidirectional(
+            tf.keras.layers.GRU(cfg.UNITS,
+                                dropout=cfg.DROPRATE,
+                                return_sequences=False))
+        if (cfg.NUM_BLOCKS - 2) > 0:
+            self.gru_blocks = [
+                tf.keras.layers.Bidirectional(
+                    tf.keras.layers.GRU(cfg.UNITS,
+                                        dropout=cfg.DROPRATE,
+                                        return_sequences=True))] * (cfg.NUM_BLOCKS - 2)
+            self.flag_use_gru_block = True
+        else:
+            self.flag_use_gru_block = False
+            
+    def get_config(self):
+        config = {
+            "start_gru" : self.start_gru,
+            "end_gru" : self.end_gru,
+            "flag_use_gru_block" : self.flag_use_gru_block
+        }
+        base_config = super().get_config()
+        return dict(list(base_config.items()) + list(config.items()))
 
+
+    def call(self, x):
+        x = self.start_gru(x)
+        if self.flag_use_gru_block:
+            for blk in self.gru_blocks:
+                x = blk(x)
+        x = self.end_gru(x)
+        return x
 
 
 class ResidualBlock(tf.keras.layers.Layer):
