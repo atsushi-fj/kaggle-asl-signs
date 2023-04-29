@@ -28,7 +28,7 @@ POSE_UNITS: 384
 
 # Best: bidirectional 2layer
 # GRU # original 384
-UNITS: 384
+UNITS: 192
 # Base 5 best  2best
 NUM_BLOCKS: 2
 DROPRATE: 0.50
