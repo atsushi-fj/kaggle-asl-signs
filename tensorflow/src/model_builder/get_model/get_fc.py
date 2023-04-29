@@ -2,6 +2,7 @@ import tensorflow as tf
 import tensorflow_addons as tfa
 from ...utils import load_ln_data, get_lr_metric
 from ..fc import FC
+from sklearn.linear_model import LogisticRegression
 
 
 def scce_with_ls(y_true, y_pred):
@@ -36,4 +37,12 @@ def get_fc(cfg):
     metrics = ["acc",lr_metric]
     model.compile(loss=loss, optimizer=optimizer, metrics=metrics)
     return X, y, model
+
+
+def get_log_reg(cfg):
+    X, y = load_ln_data()
+    model = LogisticRegression(multi_class="multinomial")
+    return X, y, model
+    
+    
         

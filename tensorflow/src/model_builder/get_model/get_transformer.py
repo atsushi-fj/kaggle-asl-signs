@@ -6,6 +6,7 @@ from ...utils import load_data, load_input64_data
 from ...feature import create_feature_statistics_input64
 import numpy as np
 
+
 def get_lr_metric(optimizer):
     def lr(y_true, y_pred):
         return optimizer.lr

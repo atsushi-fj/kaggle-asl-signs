@@ -1,11 +1,12 @@
 import tensorflow as tf
 from .utils import WeightDecayCallback, load_config, lrfn, \
                    create_kfold, create_display_name
-from .model_builder import get_gru, get_transformer, get_feature_gru, get_new_feature_gru, get_residual_gru, get_fc
+from .model_builder import get_gru, get_transformer, get_feature_gru, get_new_feature_gru, get_residual_gru, get_fc, get_log_reg
 from .train_generator import get_train_batch_all_signs, get_gru_dataset_kfold, get_gru_dataset_not_kfold, get_train_batch_all_signs_ln, get_train_batch_all_signs_gru
 import wandb
 import numpy as np
 from sklearn.linear_model import LogisticRegression
+import pickle
 
 
 def run_transformer(config):
@@ -281,4 +282,27 @@ def run_gru2(config):
     model.save(cfg.MODEL_PATH)
     model.save_weights(cfg.MODEL_WEIGHTS_PATH)
 
+
+def run_log_reg(config):
+    cfg = load_config(config)
+    X, y, model = get_log_reg(cfg)
+    
+    if cfg.CREATE_KFOLD:
+        train_idxs, val_idxs = create_kfold(cfg)
+        X_train = X[train_idxs]
+        X_val = X[val_idxs]
+        y_train = y[train_idxs]
+        y_val = y[val_idxs]
+        print(f'# NaN Values In Prediction: {np.isnan(X_train).sum()}')
+    
+    if cfg.CREATE_KFOLD:
+        model.fit(X_train, y_train)
+        score = model.score(X_val, y_val)
+        print(f"Test score {100 * score:.2f} %")
+        
+    else:
+        model.fit(X, y)
+    
+    with open(cfg.MODEL_PATH, "rb") as file:
+        pickle.dump(model, file)
 
