@@ -1,0 +1,59 @@
+N_ROWS: 543
+N_COLS: 66
+N_DIMS: 3
+DIM_NAMES: ['x', 'y', 'z']
+SEED: 42
+NUM_CLASSES: 250
+IS_INTERACTIVE: True
+VERBOSE: 2
+INPUT_SIZE: 64
+BATCH_ALL_SIGNS_N: 4
+BATCH_SIZE: 256
+N_EPOCHS: 100
+LR_MAX: 1.e-3
+N_WARMUP_EPOCHS: 0
+WD_RATIO: 0.05
+MASK_VAL: 4237
+
+
+# Epsilon value for layer normalisation
+LAYER_NORM_EPS: 1.e-6
+
+# Dense layer units for landmarks
+LIPS_UNITS: 384
+HANDS_UNITS: 384
+POSE_UNITS: 384
+# final embedding and transformer embedding size
+UNITS: 384
+# used 512
+
+# Transformer
+NUM_BLOCKS: 2
+MLP_RATIO: 5
+
+# Dropout
+EMBEDDING_DROPOUT: 0.00
+MLP_DROPOUT_RATIO: 0.30
+CLASSIFIER_DROPOUT_RATIO: 0.10
+
+# Optimizer
+lr: 1.e-3
+weight_decay: 1.e-5
+clipnorm: 1.0
+
+# Kfold
+CREATE_KFOLD: True
+k: 7
+
+# Earlystopping
+PATIENCE: 200
+
+# Path
+TRAIN_CSV_PATH: "input/train.csv"
+MODEL_PATH: "models/conv_lstm.h5"
+MODEL_WEIGHTS_PATH: "models/conv_lstm"
+
+# Wandb
+PROJECT: "kaggle-asl-signs"
+EXPERIMENT_NAME: "100%_conv_lstm"
+MODEL_NAME: "conv_lstm"
