@@ -24,12 +24,12 @@ LIPS_UNITS: 384
 HANDS_UNITS: 384
 POSE_UNITS: 384
 # final embedding and transformer embedding size
-UNITS: 512
+UNITS: 384
 # used 512
 
 # Transformer
 NUM_BLOCKS: 2
-MLP_RATIO: 4
+MLP_RATIO: 5
 
 # Dropout
 EMBEDDING_DROPOUT: 0.00
