@@ -1,7 +1,19 @@
 import tensorflow as tf
+import tensorflow_addons as tfa
 from ..conv1dlstm import conv1d_lstm_block
-from ...utils import load_input64_data
+from ...utils import load_input64_data, get_lr_metric
 from ...feature import create_feature_statistics_input64
+from ..gru import ResidualBlock, MSD
+
+
+def scce_with_ls(y_true, y_pred):
+    # One Hot Encode Sparsely Encoded Target Sign
+    y_true = tf.cast(y_true, tf.int32)
+    y_true = tf.one_hot(y_true, 250, axis=1)
+    y_true = tf.squeeze(y_true, axis=2)
+    # Categorical Crossentropy with native label smoothing support
+    return tf.keras.losses.categorical_crossentropy(y_true, y_pred, label_smoothing=0.25)
+
 
 def get_conv1dlstm(cfg):
     X, y, _ = load_input64_data()
@@ -43,12 +55,27 @@ def get_conv1dlstm(cfg):
     left_hand_vector = conv1d_lstm_block(left_hand, [8])
     pose_vector = conv1d_lstm_block(pose, [8])
     vector = tf.keras.layers.Concatenate(axis=1)([face_vector, left_hand_vector, pose_vector])
-    vector = tf.keras.layers.Flatten()(vector)
-    output = tf.keras.layers.Dense(250, activation="softmax")(vector)
-    model = tf.keras.Model(inputs=inputs, outputs=output)
-    model.compile(
-        loss=tf.keras.losses.SparseCategoricalCrossentropy(), metrics=[
-            "accuracy",
-        ]
-    )
+    x = tf.keras.layers.Flatten()(vector)
+    
+    # Residual Block
+    x = ResidualBlock(cfg)(x)
+    x += ResidualBlock(cfg)(x)
+    
+    # Final output MSD Layer
+    x = MSD(cfg)(x)
+    outputs = tf.keras.layers.Softmax(dtype="float32")(x)
+    
+    model = tf.keras.Model(inputs=inputs, outputs=outputs)
+    
+    loss = scce_with_ls
+    
+    # Adam Optimizer with weight decay
+    optimizer = tfa.optimizers.AdamW(learning_rate=cfg.lr,
+                                     weight_decay=cfg.weight_decay,
+                                     clipnorm=cfg.clipnorm)
+    
+    lr_metric = get_lr_metric(optimizer)
+    
+    metrics = ["acc",lr_metric]
+    model.compile(loss=loss, optimizer=optimizer, metrics=metrics)
     return X, y, model
