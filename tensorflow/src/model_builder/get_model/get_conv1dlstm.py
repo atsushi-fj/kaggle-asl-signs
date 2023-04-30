@@ -8,7 +8,6 @@ def get_conv1dlstm(cfg):
     inputs = tf.keras.layers.Input(shape=(cfg.INPUT_SIZE, cfg.N_COLS, cfg.N_DIMS),
                                    dtype=tf.float32,
                                    name="inputs")
-    x = tf.reshape(inputs, [-1, cfg.INPUT_SIZE, cfg.N_COLS * cfg.N_DIMS])
     face_inputs = inputs[:, :, 0:468, :]
     left_hand_inputs = inputs[:, :, 468:489, :]
     pose_inputs = inputs[:, :, 489:522, :]
@@ -26,4 +25,4 @@ def get_conv1dlstm(cfg):
             "accuracy",
         ]
     )
-    return model
+    return X, y, model
