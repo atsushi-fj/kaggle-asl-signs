@@ -19,7 +19,7 @@ def get_conv1dlstm(cfg):
             0.0,
             (lips - feature_stats["lips"][1]) / feature_stats["lips"][2],
         )
-    lips = tf.reshape(lips, [-1, cfg.INPUT_SIZE, 40 * 2])
+    lips = tf.reshape(lips, [-1, cfg.INPUT_SIZE, 40, 2])
     
     # LEFT HAND
     left_hand = tf.slice(x, [0,0,40,0], [-1,cfg.INPUT_SIZE, 21, 2])
@@ -28,7 +28,7 @@ def get_conv1dlstm(cfg):
             0.0,
             (left_hand - feature_stats["left_hand"][1]) / feature_stats["left_hand"][2],
         )
-    left_hand = tf.reshape(left_hand, [-1, cfg.INPUT_SIZE, 21 * 2])
+    left_hand = tf.reshape(left_hand, [-1, cfg.INPUT_SIZE, 21, 2])
     
     # POSE
     pose = tf.slice(x, [0,0,61,0], [-1,cfg.INPUT_SIZE, 5, 2])
@@ -37,7 +37,7 @@ def get_conv1dlstm(cfg):
             0.0,
             (pose - feature_stats["pose"][1]) / feature_stats["pose"][2],
         )
-    pose = tf.reshape(pose, [-1, cfg.INPUT_SIZE, 5*2])
+    pose = tf.reshape(pose, [-1, cfg.INPUT_SIZE, 5, 2])
     
     face_vector = conv1d_lstm_block(lips, [64])
     left_hand_vector = conv1d_lstm_block(left_hand, [64])
