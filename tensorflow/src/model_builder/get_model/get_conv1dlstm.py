@@ -15,8 +15,8 @@ def scce_with_ls(y_true, y_pred):
     return tf.keras.losses.categorical_crossentropy(y_true, y_pred, label_smoothing=0.25)
 
 
-def get_conv1dlstm(cfg):
-    X, y, _ = load_input64_data()
+def get_conv1dlstm(cfg, X, y):
+    # X, y, _ = load_input64_data()
     feature_stats = create_feature_statistics_input64(X)
     
     inputs = tf.keras.layers.Input(shape=(cfg.INPUT_SIZE, cfg.N_COLS, cfg.N_DIMS),

@@ -283,9 +283,9 @@ def run_gru2(config):
     model.save_weights(cfg.MODEL_WEIGHTS_PATH)
 
 
-def run_conv_lstm(config):
+def run_conv_lstm(config, X, y):
     cfg = load_config(config)
-    X, y, model = get_conv1dlstm(cfg)
+    X, y, model = get_conv1dlstm(cfg, X, y)
     
     if cfg.CREATE_KFOLD:
         train_idxs, val_idxs = create_kfold(cfg)
