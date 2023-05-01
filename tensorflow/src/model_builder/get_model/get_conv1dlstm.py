@@ -51,9 +51,9 @@ def get_conv1dlstm(cfg):
         )
     pose = tf.reshape(pose, [-1, cfg.INPUT_SIZE, 5, 2])
     
-    face_vector = conv1d_lstm_block(lips, [16])
-    left_hand_vector = conv1d_lstm_block(left_hand, [16])
-    pose_vector = conv1d_lstm_block(pose, [16])
+    face_vector = conv1d_lstm_block(lips, [8])
+    left_hand_vector = conv1d_lstm_block(left_hand, [8])
+    pose_vector = conv1d_lstm_block(pose, [8])
     vector = tf.keras.layers.Concatenate(axis=1)([face_vector, left_hand_vector, pose_vector])
     x = tf.keras.layers.Flatten()(vector)
     
